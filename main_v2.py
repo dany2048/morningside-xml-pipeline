@@ -4,9 +4,13 @@ Same pipeline as main.py but uses processor_v2.py (GPT-5.4) instead of processor
 All other components (audio, transcribe, xml_gen) are shared.
 
 Usage:
-    # Local file mode (testing)
+    # Full pipeline: MP4 → Whisper → GPT-5.4 → XML
     python main_v2.py --file /path/to/raw.mp4
-    python main_v2.py --file /path/to/raw.mp4 --out /path/to/output.fcpxml
+    python main_v2.py --file /path/to/raw.mp4 --out /path/to/output.xml
+
+    # Premiere transcript mode: skip Whisper, use Premiere's transcription
+    python main_v2.py --transcript /path/to/transcript.txt --file /path/to/raw.mp4
+    python main_v2.py --transcript /path/to/transcript.srt --file /path/to/raw.mp4
 
     # Notion + Drive mode (production — single page)
     python main_v2.py --notion-id <page_id>
@@ -19,13 +23,9 @@ Usage:
     python main_v2.py --file ... --whisper-model medium
 
 Cost estimate (GPT-5.4 @ $2.50/1M in, $15.00/1M out):
-    1-hour video ≈ 500-800 lines ≈ 25k input tokens per pass
-    Pass 1: ~25k in + ~2k out = $0.09
-    Pass 2: ~15k in + ~1.5k out = $0.06
-    Pass 3: ~12k in + ~1k out = $0.05
-    Total GPT-5.4: ~$0.20/video
-    Whisper API: ~$0.36/video
-    Grand total: ~$0.56/video ($2.24/week at 4 videos)
+    Single pass: ~25k in + ~2k out = ~$0.09
+    Whisper API (if used): ~$0.36/video
+    Grand total: ~$0.20-$0.45/video
 """
 from __future__ import annotations
 
@@ -48,68 +48,92 @@ load_dotenv(_workspace_root / ".env")
 import config
 from audio import get_video_metadata, extract_audio, chunk_audio
 from transcribe import transcribe_all
-from processor_v2 import process
+from processor_v2 import process, process_lines
 from xml_gen import generate_fcpxml
+from rlhf_from_transcript import detect_and_parse
 
 
-def _run_core(mp4_path: str, output_path: str, use_local: bool = False) -> str:
-    """Core pipeline: MP4 in, FCPXML out. Returns output path."""
+def _run_core(mp4_path: str, output_path: str, use_local: bool = False, transcript_path: str | None = None) -> str:
+    """Core pipeline: MP4 in, FCPXML out. Returns output path.
+
+    If transcript_path is given, skips audio extraction + Whisper and uses
+    the Premiere Pro transcript directly.
+    """
     start_time = time.time()
 
-    with tempfile.TemporaryDirectory(prefix="morningside_v2_") as tmp_dir:
-        # Step 1: Video metadata
-        print("\n[1/5] Analyzing video...")
-        metadata = get_video_metadata(mp4_path)
-        print(f"  Resolution: {metadata['width']}x{metadata['height']}")
-        print(f"  FPS: {metadata['fps']}")
-        print(f"  Duration: {metadata['duration_seconds']:.1f}s ({metadata['duration_seconds']/60:.1f} min)")
-        print(f"  Codec: {metadata['codec_name']}")
+    # Step 1: Video metadata
+    print("\n[1] Analyzing video...")
+    metadata = get_video_metadata(mp4_path)
+    print(f"  Resolution: {metadata['width']}x{metadata['height']}")
+    print(f"  FPS: {metadata['fps']}")
+    print(f"  Duration: {metadata['duration_seconds']:.1f}s ({metadata['duration_seconds']/60:.1f} min)")
+    print(f"  Codec: {metadata['codec_name']}")
 
-        # Step 2: Extract audio
-        print("\n[2/5] Extracting audio...")
-        audio_path = os.path.join(tmp_dir, "audio.mp3")
-        extract_audio(mp4_path, audio_path)
+    if transcript_path:
+        # Premiere transcript mode — skip Whisper
+        print(f"\n[2] Parsing transcript: {transcript_path}")
+        lines = detect_and_parse(transcript_path)
+        if not lines:
+            raise RuntimeError("No lines parsed from transcript")
+        total_duration = lines[-1]["end"]
+        print(f"  {len(lines)} lines, {total_duration:.0f}s")
 
-        # Step 3: Chunk + transcribe
-        print("\n[3/5] Transcribing (Whisper)...")
-        chunk_dir = os.path.join(tmp_dir, "chunks")
-        chunks = chunk_audio(audio_path, chunk_dir)
-        if len(chunks) > 1:
-            print(f"  Split into {len(chunks)} chunks for Whisper")
+        print(f"\n[3] Processing transcript (GPT-5.4 single-pass)...")
+        segments = process_lines(lines, total_duration)
 
-        mode_label = "local Whisper" if use_local else "OpenAI Whisper API"
-        print(f"  Using {mode_label}" + (f" (model: {config.WHISPER_MODEL})" if use_local else ""))
-        words = transcribe_all(chunks, use_local=use_local)
+    else:
+        # Full pipeline — Whisper transcription
+        with tempfile.TemporaryDirectory(prefix="morningside_v2_") as tmp_dir:
+            print("\n[2] Extracting audio...")
+            audio_path = os.path.join(tmp_dir, "audio.mp3")
+            extract_audio(mp4_path, audio_path)
 
-        if not words:
-            raise RuntimeError("No words detected in transcription")
+            print("\n[3] Transcribing (Whisper)...")
+            chunk_dir = os.path.join(tmp_dir, "chunks")
+            chunks = chunk_audio(audio_path, chunk_dir)
+            if len(chunks) > 1:
+                print(f"  Split into {len(chunks)} chunks for Whisper")
 
-        whisper_cost = metadata["duration_seconds"] / 60 * 0.006
-        print(f"  Whisper cost: ${whisper_cost:.2f}")
+            mode_label = "local Whisper" if use_local else "OpenAI Whisper API"
+            print(f"  Using {mode_label}" + (f" (model: {config.WHISPER_MODEL})" if use_local else ""))
+            words = transcribe_all(chunks, use_local=use_local)
 
-        # Step 4: Process with GPT-5.4
-        print("\n[4/5] Processing transcript (GPT-5.4 3-pass)...")
-        segments = process(words, metadata["duration_seconds"])
+            if not words:
+                raise RuntimeError("No words detected in transcription")
 
-        if not segments:
-            raise RuntimeError("No segments survived processing")
+            whisper_cost = metadata["duration_seconds"] / 60 * 0.006
+            print(f"  Whisper cost: ${whisper_cost:.2f}")
 
-        # Step 5: Generate FCPXML
-        print("\n[5/5] Generating FCPXML...")
-        generate_fcpxml(segments, metadata, Path(mp4_path).name, output_path, source_path=mp4_path)
+            print(f"\n[4] Processing transcript (GPT-5.4 single-pass)...")
+            segments = process(words, metadata["duration_seconds"])
+
+    if not segments:
+        raise RuntimeError("No segments survived processing")
+
+    # Generate FCPXML
+    print(f"\n[{'4' if transcript_path else '5'}] Generating FCPXML...")
+    generate_fcpxml(segments, metadata, Path(mp4_path).name, output_path, source_path=mp4_path)
 
     elapsed = time.time() - start_time
     print(f"\n  Done in {elapsed:.1f}s")
-    print(f"  Estimated total cost: ${whisper_cost:.2f} (Whisper) + GPT-5.4 (see above)")
+    if not transcript_path:
+        print(f"  Estimated cost: ${whisper_cost:.2f} (Whisper) + GPT-5.4 (see above)")
     return output_path
 
 
-def run_local(mp4_path: str, output_path: str | None = None, whisper_model: str | None = None, use_local: bool = False) -> str:
+def run_local(mp4_path: str, output_path: str | None = None, whisper_model: str | None = None,
+               use_local: bool = False, transcript_path: str | None = None) -> str:
     """Local file mode."""
     mp4_path = os.path.abspath(mp4_path)
     if not os.path.exists(mp4_path):
         print(f"Error: File not found: {mp4_path}")
         sys.exit(1)
+
+    if transcript_path:
+        transcript_path = os.path.abspath(transcript_path)
+        if not os.path.exists(transcript_path):
+            print(f"Error: Transcript not found: {transcript_path}")
+            sys.exit(1)
 
     source_filename = Path(mp4_path).stem
     file_size_mb = os.path.getsize(mp4_path) / (1024 * 1024)
@@ -118,18 +142,22 @@ def run_local(mp4_path: str, output_path: str | None = None, whisper_model: str 
         config.WHISPER_MODEL = whisper_model
 
     if not output_path:
+        tag = "transcript" if transcript_path else "v2"
         output_path = os.path.join(
             os.path.dirname(mp4_path),
-            f"{source_filename} - Clean Cut v2.xml",
+            f"{source_filename} - Clean Cut {tag}.xml",
         )
 
+    mode = "Premiere Transcript" if transcript_path else "Whisper"
     print(f"\n{'='*60}")
-    print(f"Morningside XML Pipeline v2 (GPT-5.4)")
+    print(f"Morningside XML Pipeline v2 (GPT-5.4 + {mode})")
     print(f"{'='*60}")
     print(f"Source: {mp4_path}")
     print(f"Size: {file_size_mb:.0f} MB")
+    if transcript_path:
+        print(f"Transcript: {transcript_path}")
 
-    result = _run_core(mp4_path, output_path, use_local)
+    result = _run_core(mp4_path, output_path, use_local, transcript_path)
 
     print(f"\n{'='*60}")
     print(f"Output: {result}")
@@ -236,6 +264,7 @@ def main():
     mode.add_argument("--notion-id", help="Notion page ID to process")
     mode.add_argument("--watch", action="store_true", help="Poll Notion DB for new pages")
 
+    parser.add_argument("--transcript", help="Premiere Pro transcript file (.txt, .srt, .vtt) — skips Whisper")
     parser.add_argument("--out", help="Output FCPXML path (local mode only)")
     parser.add_argument("--local", action="store_true", help="Use local Whisper model instead of API")
     parser.add_argument("--interval", type=int, default=120, help="Watch mode poll interval in seconds (default: 120)")
@@ -250,7 +279,8 @@ def main():
         config.WHISPER_MODEL = args.whisper_model
 
     if args.file:
-        run_local(args.file, args.out, args.whisper_model, use_local=args.local)
+        run_local(args.file, args.out, args.whisper_model, use_local=args.local,
+                  transcript_path=args.transcript)
     elif args.notion_id:
         run_notion(args.notion_id, use_local=args.local)
     elif args.watch:

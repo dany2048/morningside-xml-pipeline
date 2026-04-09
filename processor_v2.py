@@ -162,19 +162,17 @@ Respond with ONLY a JSON array of line numbers to KEEP.
 No explanation. No commentary. Just the JSON array."""
 
 
-def process(words: list[dict], total_duration: float) -> list[dict]:
-    """Single-pass GPT-5.4 processing with numbered lines.
+def process_lines(lines: list[dict], total_duration: float) -> list[dict]:
+    """Single-pass GPT-5.4 processing with pre-built numbered lines.
 
-    One pass with reasoning: medium. GPT-5.4 is strong enough to handle
-    take detection, false starts, and flow in a single shot.
+    Accepts lines from any source (Whisper word-level or Premiere transcript).
+    Each line must have: id, start, end, text.
 
     Returns list of {start: float, end: float, label: str} segments.
     """
     client = _get_client()
 
-    # Build numbered lines
-    lines = _build_numbered_lines(words)
-    print(f"  {len(lines)} numbered lines from {len(words)} words")
+    print(f"  {len(lines)} lines, {total_duration:.0f}s ({total_duration/60:.1f} min)")
 
     full_transcript = _format_for_llm(lines)
     valid_ids = {l["id"] for l in lines}
@@ -215,3 +213,10 @@ def process(words: list[dict], total_duration: float) -> list[dict]:
     print(f"  GPT-5.4 cost: ${cost:.4f}")
 
     return segments
+
+
+def process(words: list[dict], total_duration: float) -> list[dict]:
+    """Process from Whisper word-level data. Builds numbered lines then runs GPT-5.4."""
+    lines = _build_numbered_lines(words)
+    print(f"  Built {len(lines)} numbered lines from {len(words)} words")
+    return process_lines(lines, total_duration)

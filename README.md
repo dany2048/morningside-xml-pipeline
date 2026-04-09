@@ -4,10 +4,18 @@ Auto-generates rough cuts from raw talking-head YouTube footage. Takes a 30-60 m
 
 ## How It Works
 
+Two modes — pick whichever fits your workflow:
+
+### Mode A: Full Pipeline (MP4 → XML)
 1. **Audio extraction** — ffmpeg pulls audio from the raw MP4
 2. **Transcription** — OpenAI Whisper produces word-level timestamps
 3. **LLM analysis** — GPT-5.4 reads the full numbered transcript and decides which lines to KEEP vs CUT
 4. **FCPXML output** — Kept segments become clips in an FCP7 XML file, importable into Premiere Pro
+
+### Mode B: Premiere Transcript (Transcript → XML)
+1. **Export transcript** from Premiere Pro (Text > Export to file)
+2. **LLM analysis** — GPT-5.4 processes the transcript with structural rules
+3. **FCPXML output** — Same result, zero Whisper cost
 
 The LLM prompt includes structural rules learned from RLHF reviews (human-corrected cut decisions on past footage).
 
@@ -54,8 +62,14 @@ Requires ffmpeg for audio extraction: `brew install ffmpeg`
 ## Usage
 
 ```bash
-# Full pipeline (raw MP4 -> FCPXML)
-python3 main_v2.py /path/to/raw.mp4
+# Mode A: Full pipeline (raw MP4 -> Whisper -> GPT-5.4 -> XML)
+python3 main_v2.py --file /path/to/raw.mp4
+
+# Mode B: Premiere transcript (skip Whisper, use Premiere's transcription)
+python3 main_v2.py --transcript /path/to/transcript.txt --file /path/to/raw.mp4
+
+# Supported transcript formats: .txt (Premiere), .srt, .vtt
+# The --file flag is still needed for video metadata (fps, resolution)
 
 # Test on cached C5296 data (auto-increments version)
 python3 test_v2.py
@@ -64,6 +78,14 @@ python3 test_v2.py --tag my-test
 # RLHF review from external transcript
 python3 rlhf_from_transcript.py /path/to/transcript.srt
 ```
+
+### How to Export Transcript from Premiere Pro
+
+1. Open raw footage in Premiere Pro
+2. Go to **Text** panel (Window > Text)
+3. Click **Transcribe sequence** (or it may auto-transcribe)
+4. Once done, click the **...** menu > **Export to text file**
+5. Save as `.txt` — this is your `--transcript` input
 
 ## Importing into Premiere Pro
 
