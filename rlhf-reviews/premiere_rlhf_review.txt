@@ -1,0 +1,411 @@
+==========================================================================================
+RLHF REVIEW — Project C5296 (transcript source: (premiere transcript) test file for cutting project C5296 .MP4 - Clean Cut.txt)
+==========================================================================================
+
+HOW TO USE THIS FILE:
+  Each line shows: line number, timestamps, the LLM's decision, and the text.
+  Decision key:
+    KEEP     = survived all 3 passes (in final cut)
+    CUT@P1   = cut in Pass 1 (initial aggressive cut)
+    CUT@P2   = survived Pass 1, cut in Pass 2 (false start / repeat hunting)
+    CUT@P3   = survived Pass 1+2, cut in Pass 3 (final QC)
+
+  ADD YOUR FEEDBACK after each line using -->
+  Examples:
+    --> WRONG: should be CUT, this is a false start
+    --> WRONG: should be KEEP, this is clean delivery
+    --> WRONG: duplicate of L0234, keep that one instead (it's the later take)
+    --> OK
+    --> this whole section (L0100-L0120) is a redo of L0050-L0070, keep L0100-L0120
+
+STATS:
+  Total lines: 111
+  Raw duration: 1922s (32.0 min)
+  After Pass 1: 63 lines, 1283s (67%)
+  After Pass 2: 62 lines, 1254s (65%)
+  After Pass 3: 41 lines, 765s (40%)
+  Target: ~45% (~865s, ~14.4 min)
+
+==========================================================================================
+TRANSCRIPT + DECISIONS
+==========================================================================================
+
+L0001 [3.2s-10.1s]         CUT@P1  Michael. Yeah.
+  --> OK — off-camera talk
+
+L0002 [10.2s-31.6s]        CUT@P1  If you get some £0.05 open for open for because our call for, there's so much questions for you. Yeah. No, I thought I went to that same thought process that you just went further.
+  --> OK — off-camera conversation, garbled
+
+L0003 [31.7s-34.8s]        CUT@P1  Closed for.
+  --> OK — fragment
+
+L0004 [34.8s-41.3s]        CUT@P1  See, if we had a red marker here, that'd be fine.
+  --> OK — off-camera talk about props/setup
+
+L0005 [41.4s-46.8s]        CUT@P1  Just another additional support.
+  --> OK — off-camera
+
+L0006 [46.9s-54.2s]        CUT@P1  So.
+  --> OK — dead air / filler
+
+L0007 [54.3s-70.9s]        CUT@P1  For for.
+  --> OK — false start
+
+L0008 [71.0s-92.0s]        CUT@P1  H field you've been using open and you think very cutting edge. You're tapping into maybe 5 to 10% of what this technology can really do. That you should do it for third just like that. But if you've been using that of a bet but that got now I'm going to hit that. And I'm not just I be yapping for like ten minutes.
+  --> OK — early hook attempt, garbled, inferior to L0019
+
+L0009 [92.0s-102.1s]       CUT@P1  So don't let me annoy you being taken to me.
+  --> OK — off-camera / self-direction
+
+L0010 [102.2s-115.1s]      CUT@P1  I'm going to you're going to do a.
+  --> OK — false start
+
+L0011 [115.2s-136.5s]      CUT@P1  Is that very side piece. Yeah. The outside, you know, some struggle already from the gate. Oh, okay. It's, All right. So if you have been using Open Claw and you think you had and you think it got it.
+  --> OK — another hook attempt, breaks down mid-delivery
+
+L0012 [136.6s-153.9s]      CUT@P1  So if you're using your open claw, if you've been using open for and you think you're at the cutting edge, if if you're a business owner using open claw and you think you're at the cutting edge, I can promise you that you're only getting like 5 to 10% of the potential of this kind of technology. And on the other side, if you tried it and you're frustrated by it, there's a reason for that.
+  --> OK — hook take, but L0019 is the later/cleaner version of this same hook
+
+L0013 [153.9s-168.1s]      KEEP    In this video, I'm going to break down why it is really not the right move. It's actually open floor and you should be using something completely different. I'm going to be walking through my system that I've created, I've been using, and I've been able to achieve all the same functionality and more than you're able to do with Open Claw.
+  --> WRONG: should be CUT. This is from an EARLIER take (153s) — it follows L0012 (the inferior hook). L0019 (231s) is the later, cleaner hook. Keeping both creates duplicate intro content and a structural conflict: this "video overview" would play before the hook (L0019) in timeline order, which is inverted. The overview content also gets covered organically later in the video. CUT this in favor of the later flow.
+
+L0014 [168.1s-176.4s]      KEEP    And this is the future of business. Let's get into it.
+  --> WRONG: should be CUT. Continuation of the L0012-L0013 early take. Orphaned once L0013 is cut. The "let's get into it" transition is generic filler.
+
+L0015 [176.4s-182.6s]      CUT@P1  I just saw your message. Yeah, I think I got a little bit back.
+  --> OK — off-camera talk
+
+L0016 [182.7s-194.1s]      CUT@P1  Hey, I just a lucky dog. Oh, we were something that we have here for. I got a film for, like, ten minutes.
+  --> OK — off-camera talk
+
+L0017 [194.2s-226.7s]      CUT@P1  That's a lot of good stuff here. Oh. Oh. Oh, okay. Very good. Let's go. So, what's it been, nail? Okay. I've been cooking today for most. Cooking for real. And this could be, like, ten minutes. Yeah, we did some deep. Yeah. And we can put the present in something. I'm filming a video. Okay.
+  --> OK — off-camera conversation / self-direction
+
+L0018 [226.8s-231.2s]      CUT@P1  Jay.
+  --> OK — off-camera name call
+
+L0019 [231.3s-252.5s]      KEEP    If you can, if you've been using open for anything. So if you are a business owner who's been using Open Claw and you think you're at the cutting edge of this technology, I can promise you you're only getting maybe 5 to 10% of the potential out of this kind of technology at the moment. And on the other hand, if you're someone who's maybe been less impressed or struggling with using something like this, there is a reason for that.
+  --> OK — best/latest hook take. Clean delivery, strong opening. Correct KEEP.
+
+L0020 [252.5s-270.4s]      CUT@P3  And I'm going to be revealing in this video what it is. The system that I've been using and this system, this, this, this, the these, the system that I've, these system that I've created, I've been using that is allowed the system that I've created, the system that I've created and I'm using, which is the system that I've created and I've been using.
+  --> OK — catastrophic false start / stammer loop. Correctly cut.
+
+L0021 [270.6s-300.0s]      CUT@P2  That is the system that I've, the system that I've created and I've been using that checks all the boxes of Opencore and Fabian and, and, and the reason I'm making and the reason I'm making this and the reason I'm making this video is because I've been running into so many successful and smart entrepreneurs who are excited about this technology, naturally, and the prospect and the and the and the potential and the potential and and the potential it has for being able to actually get them some time back and actually be able to do things for them.
+  --> OK — continued false start from same section. Correctly cut.
+
+L0022 [300.0s-322.2s]      CUT@P1  So them as a founder, I just changed their business like a job, but but the but but the but but but the thing but but but the but the thing but the thing is open for is flawed. It is open floor but the but the thing is open floor is open floor.
+  --> OK — catastrophic stammer. Correctly cut.
+
+L0023 [322.3s-383.6s]      CUT@P3  There are major issues with it that are going to stop you from turning it into the potential from, from from turning it from turning it from turning it into the true AI system that runs your business and does things for you. And in this video, I'm going to be breaking those down so that hopefully I can so that hopefully I can convince some of you to make the transition to the system that I'm going to talk about so that you can actually so that you can so that you can so, so that so that you can truly realize the benefits of this incredible technology that is now in our hands.
+  --> OK — heavy stammering throughout. Content is covered better later. Correctly cut.
+
+L0024 [383.7s-397.5s]      KEEP    And if you guys and if you guys are new to the channel and don't know who I am, my name is Leon Motley, and I've been building AI businesses for the past three years. I've been in business for the past seven. And this stuff I'm going to talk about in this video is by far the most exciting thing I've ever seen in my career as an entrepreneur.
+  --> OK — about-me intro. Minor "and if you guys" stutter at start but clean enough. Editor can trim the first 2 words. Correct KEEP.
+
+L0025 [397.5s-418.6s]      CUT@P1  I have not been out sleep for the past. I've I've barely I've barely slept. I've barely left the house this week. I've barely slept at all. It's because this is truly the most exciting. Because, because, because, because for the first time, for me and the friends that I'm here with who are also nerding out on getting these systems set up, we can actually see us moving towards a future where we can use what we can use, but we can use a system.
+  --> OK — stammering breakdown. Correctly cut.
+
+L0026 [418.6s-455.9s]      CUT@P1  I'm going to explain here to actually automate our entire business. And by the next and another, and over the next another and, and and I've been, you know, and over the next and over the next 30 days, I'm actually documenting my process of automating as many of my tasks as possible.
+  --> OK — false starts and stammering. Correctly cut.
+
+L0027 [456.0s-460.1s]      CUT@P1  And so.
+  --> OK — fragment
+
+L0028 [460.2s-480.5s]      KEEP    And so long so and so long story short, the main difference I'm talking about here is not using open claw or open floor. We are using clawed code. And if that sounds scary, stick with me. Because yes, this may sound like a dive tool, but it is actually the most powerful AI assistant and productivity machine that I've ever seen.
+  --> OK — thesis statement. "And so long so and so long story short" is a bit stammery but the core delivery is strong. Correct KEEP.
+
+L0029 [480.7s-485.0s]      CUT@P1  And in this and.
+  --> OK — fragment
+
+L0030 [485.1s-493.2s]      CUT@P1  And.
+  --> OK — fragment
+
+L0031 [493.3s-513.1s]      CUT@P3  I'm going to and in and and and in this video and in this video I'm going to and in this video I'm going to prove and in this video I'm going to prove why you must make the switch now and, and and in this video I'm going to be breaking down why you must make the switch. Now I'm going to do a side by side comparison of all the things you love about this, and how it would.
+  --> OK — stammer loop, trails off. Correctly cut.
+
+L0032 [513.1s-526.3s]      KEEP    Code is so much better at everything, and how and how flawed code beat it in every realm.
+  --> WRONG: should be CUT. This is an ORPHANED FRAGMENT — it's the tail of L0031 which was cut. Starts mid-sentence with no subject. Cannot stand alone. "how flawed code beat it" is garbled transcript anyway. LLM failed to check dependency on the preceding line.
+
+L0033 [526.4s-551.2s]      CUT@P3  And then and then and then I'll be and and then I'll be breaking down what it actually takes to get started with this and get moving in the right direction. Final and and and at the end, at the end of the video, I'm going to be breaking. And at the end of the video, I'm going to be explaining what it actually takes to get started on building a system that will go like this rather than Open Claw, which is going to go like this and plateau for you.
+  --> OK — stammering + the content (roadmap/agenda) is covered later. Correctly cut. Note: the "go like this" graph concept is valuable — see L0084 note below.
+
+L0034 [551.2s-553.6s]      CUT@P1  And.
+  --> OK — fragment
+
+L0035 [553.7s-570.5s]      CUT@P3  Like I said, okay, so the first thing you need to understand is what Open Claw actually is and what port code is. So there's been a there's, there's a, there's a, there's a, there's a, there's a, there's a few. So, so, so it starts off with a model of some sort. We're going to have this as like a sphere here.
+  --> OK — section intro attempt but heavy stammering. L0037 covers this better. Correctly cut.
+
+L0036 [570.7s-575.5s]      CUT@P1  I'm running out of pen. We have the model as a sphere.
+  --> OK — off-camera self-direction
+
+L0037 [575.6s-598.6s]      KEEP    We call this our model. So this might be anthropic opus 4.6. It might be, it might, it might be open. It might be OpenAI 5.2. Whatever it is, this is some kind of LM or model that is, this that is that is that is that is our starting point. Now, what Claude code is here is a harness.
+  --> OK — introduces the model/harness concept. Has "that is" stammer but the setup is clean enough and the harness reveal at the end lands well. Correct KEEP.
+
+L0038 [598.8s-616.0s]      CUT@P3  You may have heard of ChatGPT wrappers. That was kind of a slur term used by people to throw far shade at, basic applications that took the underlying model and put a thin layer around it and called it a business or call to assess. So that's like a wrapper.
+  --> OK — tangent about wrappers vs harnesses. Interesting but breaks flow. L0042 explains harness directly. Correctly cut, though borderline.
+
+L0039 [616.0s-638.8s]      CUT@P3  And this will make sense in a second. You have to understand the difference. So there's two really fundamentally no. Why you must make the switch now. Because okay. Because that's because because once you because once you realize this you cannot see it. Because once you realize this, because once you realize this, you cannot go back. So we have a wrapper here recently we've had the emergence of what's called a harness.
+  --> OK — false starts and stammering mid-delivery. Correctly cut.
+
+L0040 [638.8s-658.2s]      CUT@P1  Now, I've still been trying to figure out where we made the jump and why one took over the other. You don't hear much about rapids anymore. You hear all about a harness. So I don't really know how to draw a harness, but recently I've been drawing them like this. Think of it as this big. We have this powerful orb, and you guys can drop a, like for my drawing skills, because I think that's pretty damn good.
+  --> OK — meta-commentary about drawing. Off-topic. Correctly cut.
+
+L0041 [658.3s-677.6s]      CUT@P3  We have this powerful orb here, which is the model. So good at understanding text, understanding images, being able to generate things, generate code, reason through things, look up. Analyze and analyze large amounts of text and code. And what we're doing, is it putting it into a harness where, I mean, this is maybe a nice way of putting it.
+  --> OK — redundant with L0042 (KEEP) which covers the same ground better. Correctly cut.
+
+L0042 [677.7s-700.3s]      KEEP    We have this harness holding it in place and giving this model a whole bunch of new features and abilities, in a very robust way. So I haven't really figured out how to draw these yet. We can maybe put them as, like, this. So it gives it these very powerful arms that stick out and allow it to do things in the digital world.
+  --> OK — clean explanation of harness concept with visual/whiteboard. "Haven't figured out how to draw" is a bit meta but adds personality. Correct KEEP.
+
+L0043 [700.4s-719.2s]      CUT@P1  And this is essentially what Claude Code is. I'm not. And all my sound like a div tool, as you can see here. And it was. But it is also based off all of it. And, and it makes it and it and it may just and and.
+  --> OK — garbled / breaks down. Correctly cut.
+
+L0044 [719.3s-744.9s]      KEEP    And that and and and the best example and the best example of a and the best example of a really great harness is called code, where anthropic has poured billions of dollars into the engineers and people behind, building out and training their harness to be able to do things like, these actions being like reading files, creating files, deleting files, searching the web, spinning up sub agents to do deep research, or spinning up some agents to dig into file systems.
+  --> OK — stammery opening ("and the best example" x3) but the content listing Claude Code's capabilities is valuable and unique. Editor can trim the opening stammer. Correct KEEP.
+
+L0045 [745.0s-771.8s]      CUT@P3  The harness that the harness the the harness the harness that code. Code has created. The harness that anthropic has created for cool code is so well created and so adapted to the digital environment it lives in. It is, it seems like an absolute genius. It can plan everything out. It can open files, edit them, search the web, pull things in, write code, write text, view images, look, view, read, read, read images and read PDFs and basically anything you throw at it.
+  --> OK — overlaps with L0044 content. Heavier stammer. Correctly cut.
+
+L0046 [771.9s-791.9s]      CUT@P1  And that's what has made this such a powerful and explosive tool. Now, now that now the thing is, I was that bright enough.
+  --> OK — transition attempt that breaks down. Correctly cut.
+
+L0047 [792.0s-795.5s]      CUT@P1  Now, now that.
+  --> OK — fragment
+
+L0048 [795.5s-819.5s]      CUT@P1  Now that the thing is, when it comes to open claw, it is essentially a wrapper or a harness that has been built by an indie developer to do the same thing as this, but also connected to telegram or to connect it to something that's handy for you. So we're going to go into the features in a second, but I want to just point out that we've taken essentially the same model, one of the one of my guest perks of Open Claw is that you can swap the model out.
+  --> OK — earlier take of the OpenClaw comparison. L0049/L0050 area covers this better. Correctly cut.
+
+L0049 [819.7s-834.4s]      KEEP    But at the end of the day, if you're trying to make a really powerful system, would you really want to use anything but the most powerful models? Opus 4.6 on it. The new one just came out as well. So we have, instead of this really robust and powerful harness that has been had hundreds of millions of dollars poured into, but we haven't.
+  --> OK — strong rhetorical point about wanting the best model. Trails off a bit at "but we haven't" but the point lands. Correct KEEP.
+
+L0050 [834.4s-860.7s]      CUT@P1  Instead, something made by an indie dev. How do I make like a janky looking harness here? Barely even hanging in there? And no disrespect to the dude at all, I. I'm not saying I could do any better, it's just the reality of one dude making something that just trying to replicate what has been done by a one of the most valuable AI startups or technology startups in the world right now with the best talent in the world.
+  --> OK — "no disrespect" tangent. L0056 covers the indie-dev vs Anthropic comparison more cleanly. Correctly cut.
+
+L0051 [860.8s-888.1s]      CUT@P3  And so it's essentially clawed code, and you've ripped off all of the, so you've ripped these off, you've taken away all of its ability, to read files and view read files, view files, search the web, etc. and you strip that back to just this model and then you've dumped it in a crappier harness. Again, no disrespect, but it actually is this because it but and then and then tried and then tried to kind of Frankenstein and duct tape on the same arms.
+  --> OK — good visual metaphor ("Frankenstein / duct tape") but heavy stammer at end. The core point (stripped model, crappy harness) is captured in L0056. Correctly cut.
+
+L0052 [888.2s-898.7s]      CUT@P1  So.
+  --> OK — filler
+
+L0053 [898.8s-904.0s]      CUT@P1  The same,
+  --> OK — fragment
+
+L0054 [904.1s-920.1s]      CUT@P1  That Frankenstein. The same.
+  --> OK — fragment
+
+L0055 [920.2s-951.1s]      CUT@P3  And so for example, for, for, for example, there's a whole bunch of great stuff that comes out of the box with code. Code like, web searching, which is super native. There's been tons of money training it and doing post training to get it to really use these web search tools very well, to be able to spin up deep research ideas, to go out and search the web, separately, come back and feed you information and all of this stuff you now have to, like, kind of plug in using, third party tools and try to recreate this with a inferior harness that is not being trained with nearly as much, effort and resources.
+  --> OK — good content but overlaps with L0077 (web search point) and L0044 (capabilities list). Triple "for example" stammer. Correctly cut to avoid redundancy.
+
+L0056 [951.3s-968.0s]      KEEP    So that is the clear difference. And that is why out of the box, this thing is so much more powerful, has been refined over billions of dollars. And this thing is made by an indie developer where you have to basically plug in all of the things just to get it to baseline and by, by nature and by and by nature, that means it's not going to perform as well.
+  --> OK — clean summary of the core argument. Minor stammer at "by nature" but otherwise strong. Correct KEEP.
+
+L0057 [968.1s-986.1s]      CUT@P3  Now I hear what you're saying. You may be like, oh, but I can connect this to telegram. Cool. We can do that too. Oh, but I can set up cron jobs and I'll do stuff for me. Cool. You can set that up to everything that you could do with with OpenCL and that you love about it. You can do this in a completely custom and and and a complete and a completely custom setup.
+  --> BORDERLINE: This is a nice audience-addressing transition into the feature comparison section. The "cool, we can do that too" pattern is engaging. But L0058 (KEEP) covers similar ground. The CUT is defensible but this line would improve flow into the feature comparison. I'd lean KEEP for better pacing.
+
+L0058 [986.3s-1014.4s]     KEEP    You can have as many and I and I completely custom setup that ties into all your, workflows. And ultimately it is far more controllable and scalable long term than something like than something like ten. Something like a bot with the performance is going to flatten out as the complexity scales. I've been building my system now for coming up two weeks, and I can and I and I can assure you and I and I can assure you, the levels of complexity that I'm reaching now with the workflows, layers of data, the documentation.
+  --> OK — key point about controllability, scalability, and the complexity scaling argument. Stammery in places but content is unique and important. Correct KEEP.
+
+L0059 [1014.6s-1033.0s]    KEEP    There's no freaking way you could achieve what I'm getting out of it right now. And I'm I've got a video coming down. It might have already been out, but you can see all of this stuff that I built and also the things that I'm looking to build in the future. So understanding what a harness is that this is a great harness proven with lots of money, and this one is a lesser as is isn't is.
+  --> OK — "no freaking way" is a strong hook line. Trails off at the end ("lesser as is isn't is") but editor can trim there. Correct KEEP.
+
+L0060 [1033.1s-1047.0s]    KEEP    It's just as fundamentally not as it's fundamentally not as good.
+  --> WRONG: should be CUT. This is a 14-second stammered fragment that adds nothing. The point ("fundamentally not as good") was already made clearly in L0056 and L0059. Just dead weight.
+
+L0061 [1047.0s-1061.4s]    KEEP    I think I think I think the best I think the best way to put it is we have essentially taken a Ferrari's engine. We've got a whole Ferrari here and you've taken the Ferrari's engine out, ripped the model out and then dumped the engine, the really powerful model, into a crappy chassis. So you chuck it in a Honda.
+  --> OK — Ferrari/Honda analogy is the best metaphor in the whole video. Memorable, quotable, clean enough. "I think" stammer is trimmable. Correct KEEP.
+
+L0062 [1061.4s-1079.4s]    KEEP    That's the best way to explain what has happened to you. You've got you've got you've got the incredible you've got the incredible power of the core model. But it's just an a really bad structure to allow it to do what the, the model or the engine was intended to do.
+  --> OK — reinforces the Ferrari analogy. "You've got" stammer is trimmable. Correct KEEP.
+
+L0063 [1079.5s-1091.2s]    CUT@P1  Okay. So okay. So okay, so I just quickly want to rip through some of the things that when I try to convince entrepreneurs that I need to make the shift, but like, oh, I know. But like I know I've got it working in a, you know, I can put it on my telegram and I've got this in this.
+  --> OK — transition attempt that breaks down. L0064 is the clean version. Correctly cut.
+
+L0064 [1091.3s-1105.6s]    KEEP    Let's just run through a few of the best, the biggest sales points of something like OpenCL and why you can do all of it and better with code. Code. So firstly, telegram.
+  --> OK — clean section transition into feature comparison. Sets up the list structure. Correct KEEP.
+
+L0065 [1105.7s-1108.4s]    CUT@P1  WhatsApp.
+  --> OK — fragment / false start
+
+L0066 [1108.5s-1128.8s]    KEEP    Etc.. Deployment. You can access your you can access your OpenCL through a platform of your choice. Cool. You can do that too. In fact because it's custom and you can control everything. I have created mine on my phone to be far more powerful. I kind of go into it in this video, but where you can have layers and layers of complexity, where you have orchestrator agents, you have separate subtopics.
+  --> OK — addresses telegram/deployment feature. Content is unique. Correct KEEP.
+
+L0067 [1128.8s-1146.3s]    CUT@P3  I fully customized it to have daily briefs coming into the telegram in different channels, full customization or by telegram set up, and that make and and and that is and and that is and that and and that is ultimately where we're trying to get it where we can run our business from the phone.
+  --> OK — extends L0066 but stammers into incoherence at end. L0066 covers the point. Correctly cut.
+
+L0068 [1146.4s-1150.6s]    CUT@P1  So technically, cron jobs.
+  --> OK — fragment / section label. L0069 is the full take.
+
+L0069 [1150.7s-1167.8s]    KEEP    This is a, this is this is a core feature of open core that allows you to set up recurring jobs. So it'll ping or say, hey, okay, can you please do this thing? One? The way that is open core is very confusing and in my opinion, not that great. And two, you can set it up and pull code yourself fully custom.
+  --> OK — cron jobs comparison. Clean enough delivery. Correct KEEP.
+
+L0070 [1167.8s-1189.2s]    CUT@P3  You can have layers and layers and layers of them and much more. And it's and and it's and just like everything else, it's much more controllable and and just and just like everything else, it's much more controllable. And you can fully understand what's going on much more easily fed. So that's tech. There is memory. Another great thing is like, oh, I learned about mean it updates.
+  --> OK — stammering loop + trailing off. L0069 already landed the point. Correctly cut.
+
+L0071 [1189.2s-1201.7s]    CUT@P1  And the thing is, it's a memory system that is kind of opaque and harder for you to maintain yourself and make modifications to.
+  --> BORDERLINE: This actually makes a clean, specific point about OpenClaw's memory being opaque. Could complement L0072 (KEEP). But L0072 covers the "my system is better" angle, and the critique of OpenClaw's memory is implied. CUT is acceptable.
+
+L0072 [1201.8s-1222.7s]    KEEP    Instead. And not only not not only does my code code set up have memory, it has layers and layers of documents. 26 and it not only not only does, not only does my code code have memory, it has a very not only not only do I have memory and my code code set up, I have a very structured context OS that allows me to continually keep that updated.
+  --> OK — heavy stammer but the content point (structured context OS, layers of documents) is unique and important. Editor will need to do significant word-level trimming. Correct KEEP, but a KEEP_HEAVY_EDIT flag would help the editor.
+
+L0073 [1222.8s-1228.7s]    CUT@P1  Also, by documentation of new features, I have.
+  --> OK — fragment
+
+L0074 [1228.8s-1248.3s]    KEEP    I have, I have, I have, very importantly, I have a full database with all of my business data condensed into one place. So I pull from all my data sources into one place, and my assistant am I am, I am, I telegram assistant has access to be able to query that data, get any information I want.
+  --> OK — database integration point. Unique content. Stammer is trimmable. Correct KEEP.
+
+L0075 [1248.4s-1269.0s]    CUT@P3  So so so so so so overall. So overall I have so I have so overall I have a more comprehensive memory system that I can control down to the. So overall, I have a more comprehensive memory system that I have full control over. And I have it connected to a database that has all of my business data in it as well.
+  --> OK — summary of L0072+L0074 but pure stammer loop. Those lines already cover it. Correctly cut.
+
+L0076 [1269.0s-1273.0s]    CUT@P1  Fourth is web searching.
+  --> OK — section label. L0077 covers it.
+
+L0077 [1273.1s-1296.1s]    KEEP    That's a pretty easy one called code as native web searching and also deep research agents that can be kicked off. So the web search and cloud code is native. It's been trained on it. It's going to be it is, it is it is fundamentally better than plugging in some basic is fundamentally it is fundamentally it is is categorically better than using some plugged in third party tool, to provide web search and capabilities to your open core.
+  --> OK — web search point, strong "categorically better" language. Has stammer but core argument is clean. Correct KEEP.
+
+L0078 [1296.2s-1308.2s]    CUT@P1  So we went there as well. Fifth is model agnostic.
+  --> OK — transition + section label. L0079 covers the point.
+
+L0079 [1308.2s-1328.1s]    KEEP    Short open crawl allows you to plug in a whole bunch of crappier models than opus 4.6 or whatever the latest one is. Personally, I'm doing some pretty crazy stuff with, these pets. Personally. Personally, I'm using this thing for some really complex business processes. Analysis of analysis. Analysis of data trends. Analysis of data. Analysis of data.
+  --> OK — model-agnostic counterargument. "Analysis of data" repeats are trimmable. The core argument (why would you use worse models?) is strong. Correct KEEP.
+
+L0080 [1328.1s-1349.8s]    CUT@P3  Researching trends. Strategy. So I want the I want the I want the Ferrari engine. I don't want the civic engine put in this thing again. And and and and anthropic does have three different model tiers high crush on it and opus I, I, I use haiku form. I use haiku for my telegram orchestrator to keep the cost low there and then not only bust out opus for the big task when I need it.
+  --> BORDERLINE: The haiku-for-orchestrator/opus-for-big-tasks point is genuinely useful technical detail not captured elsewhere. But delivery is very rough. CUT is acceptable since L0082 covers the pricing angle. The tier-strategy detail is a minor loss.
+
+L0081 [1349.8s-1367.2s]    CUT@P3  So I mean, sure, you could maybe say you beat us there, but at the end of the day, there's going to be some very complex things. I want the best. I want the best, I want the best engine. O'Brien driving that. And if I want to, I can always downgrade to a cheaper version to a to a, cheaper to to a, cheaper to a cheaper model and bring my cost down.
+  --> OK — rehashes L0079 point. Correctly cut.
+
+L0082 [1367.4s-1412.6s]    KEEP    You can plug in your anthropic plan and pay. What is it, 50 or 90? I think 50 bucks is one of the lower plans. I'm on the 200 plan and I'm absolutely smashing this thing every day. I've only hit limits once or twice, in which case it is well worth the $200 and 50.
+  --> OK — concrete pricing info, personal testimony. Clean delivery. Correct KEEP. Note: "and 50" at end seems like a trail-off — editor can trim.
+
+L0083 [1412.7s-1429.3s]    KEEP    Okay, so I hope you can agree here that this is clearly the answer, but what does it actually take to get the set up? What does it cost to make the transition? You might feel like you've sunk a whole lot of time and effort into this already. And I promise you, you need to understand. And and and just on that note, you really need to understand this graph here.
+  --> OK — strong section transition to "getting started." Addresses sunk cost objection. "And and and" stammer is trimmable. Correct KEEP.
+
+L0084 [1429.3s-1451.3s]    CUT@P3  You will get quick results with your open core. But as complexity scales and you want to build more and more and more into it, it is going to suffer. Maybe it might even start performing worse over time compared to something like code, where when you when you use when you use the proper template to get things set up a good base the right and and and built and built and built on top and build on top of that in the right way.
+  --> WRONG: should be KEEP. This is the GRAPH EXPLANATION — the speaker is drawing/pointing at a visual comparison on the whiteboard showing OpenClaw plateauing vs Claude Code compounding. L0085 (KEEP) only has the conclusion ("no limit to scale") but not the visual walkthrough. The visual content is unique and can't be reconstructed from the conclusion alone. Stammer at end is trimmable. This line explains the graph that L0083 references ("you really need to understand this graph here").
+
+L0085 [1451.4s-1467.7s]    KEEP    You can see compounding benefits. There's no limit that I've found so far to the scale and complexity that I've built into my system.
+  --> OK — conclusion of graph section. Clean delivery. Correct KEEP.
+
+L0086 [1467.8s-1488.6s]    CUT@P1  In terms of as I, as I, as I, as I, as I, as I said, as I said one of the now as I said to get started, it is important that you start off with the now.
+  --> OK — catastrophic stammer. Correctly cut.
+
+L0087 [1488.7s-1506.0s]    KEEP    Not a unfortunately and for it unfortunately to get started, this is not as easy. Just running on demand and getting things off the ground. There is a bit more set up involved and a little bit more of a technical barrier, but that should not stop you from pursuing this. I've been sitting here with.
+  --> OK — honest admission about technical barrier. Builds trust. Trails off at "sitting here with" but editor can trim. Correct KEEP.
+
+L0088 [1506.1s-1524.0s]    CUT@P3  That, that but that. But that should not stop. But but that should that should not stop you from pursuing this. I've literally been sitting here. We're doing this generational old code lock in here if you want to see the behind the scenes of me and my friends absolutely geeking out on this stuff up until 3 or 4 or 5 a.m., absolutely nerding out, going all in on this stuff to build these systems for our businesses at this.
+  --> OK — repeats L0087's point with stammer. The "geeking out at 3am" anecdote is fun but delivery is too rough. Correctly cut.
+
+L0089 [1524.0s-1543.3s]    CUT@P3  Well, while for a while while I've been, I've been here while I've been here with them, there while I've been here with them. Some of them are completely non-technical. And just by being in the right room, using just insight and and some of them are completely non-technical. And by setting them up on the some of them are completely non-technical, never touched a line of code in their life.
+  --> OK — content point (non-technical people can do this) is covered in L0090. This is the earlier stammery take. Correctly cut.
+
+L0090 [1543.4s-1569.9s]    KEEP    And by using and by and by and by and by using and by using my and by using my template which is baked and by using my template, which is, and by using my template, which is baked in with the right commands to use and, and by and by using my template, which is and by using my template, which is the right folder structure set up to get you start in the right direction, and also the right commands to use where cloud code is basically forced to help you to come up with.
+  --> OK — EXTREMELY stammery but the content (template, folder structure, commands, Claude Code guided setup) is unique and important for the CTA/value prop. No cleaner take exists. Editor will need heavy trimming. Correct KEEP but needs KEEP_HEAVY_EDIT flag.
+
+L0091 [1570.0s-1597.9s]    CUT@P3  Cloud code is basically with cloud code is basically forced to help you to spec out and come up with. And I record with a record backlog. Record backlog code is forced to become your record code is for record. My cloud code is forced to become your assistant. And getting this set up where you just say, this is what I want, it's going to walk you through a bunch of questions to figure out exactly what you want, and then technically spec that search the way to figure out how to do it, and then from there and and then and then and then and then from there on.
+  --> OK — continuation of L0090 concept but even more garbled. The "walk you through questions" description is nice but too broken. L0092 (KEEP) captures the conclusion. Correctly cut.
+
+L0092 [1598.0s-1609.3s]    KEEP    And then from there, you can actually build and implement it into your workspace.
+  --> OK — clean conclusion to the template/setup section. Short and punchy. Correct KEEP.
+
+L0093 [1609.4s-1623.3s]    KEEP    The other, the other, the the other thing, the other thing, the other thing, you're going to the up the other thing you're going to the other thing you're going to the, the other thing you're going to the, the other thing you're going to need, aside from a good starting template, is to be surrounded by people who are also doing this.
+  --> OK — extremely heavy stammer but the point (community/people around you) is the setup for L0094-L0095 which are clean and compelling. Editor trims to "the other thing you're going to need, aside from a good starting template, is to be surrounded by people who are also doing this." Correct KEEP but needs KEEP_HEAVY_EDIT flag.
+
+L0094 [1623.5s-1636.8s]    KEEP    That's why I'm supposed to have left Cape Town already, but I decided to stay because my friends are here and they're also all over this and we are just sharing learnings around when I build something here, I just tell my agent to pull it all into a markdown file, pass it over, airdrop it, airdrop it over to them.
+  --> OK — compelling anecdote. Clean delivery. "Airdrop it" repetition is natural speech. Correct KEEP.
+
+L0095 [1637.0s-1661.3s]    KEEP    They tell it, they airdrop it over to them, they tell their agent to install this, and it can and they can and I can and and within a few minutes they can have the same functionality. And, and within a few minutes and within a few minutes, they can have the same functionality that I just created. And it took me a few hours to do.
+  --> OK — powerful proof point (share via airdrop, installed in minutes). Some stammer but the "few minutes vs few hours" payoff lands. Correct KEEP.
+
+L0096 [1661.4s-1667.0s]    CUT@P1  So with all this.
+  --> OK — fragment
+
+L0097 [1667.0s-1677.7s]    CUT@P1  So.
+  --> OK — dead air
+
+L0098 [1677.8s-1698.0s]    CUT@P1  So so so with all of this in mind, I'm honestly I'm so, so with all this in mind. So so so with all that in mind, I'm actually running a webinar that's going to be kicking off next week depending on when you're watching this. But there'll be a link in the description. There's far too much I just literally did a workshop with my accelerator community today walking them through it.
+  --> OK — transition attempt into CTA but very stammery + the "far too much" tangent. L0099-L0100 cover the webinar CTA better. Correctly cut.
+
+L0099 [1698.0s-1718.7s]    KEEP    There's just so much to get through. That I that that I, that I'm going to that I'm, that I'm, that I'm, that I'm gonna that I, that I'm going to be doing that I'm going to be doing a full webinar, breaking down everything I need as to. So, so I'm so I'm going to be so I'm going to be doing so.
+  --> WRONG: should be CUT. This is almost entirely stammer. The only content point ("I'm going to be doing a full webinar") is delivered cleanly in L0100 (KEEP) immediately after. This line adds nothing — L0100 is the clean take of the same sentence. Keeping both means the viewer hears the stammered version AND the clean version back to back.
+
+L0100 [1718.7s-1732.7s]    KEEP    So I'm going to be doing a full free webinar for any business owners who want to understand what this is, see what my system is and how I'm running it. Understand what steps I need to take to get this set up, and also to get to grab my free template. That is exactly what you need to get started and moving in the right direction.
+  --> OK — clean webinar CTA. Best delivery in this section. Correct KEEP.
+
+L0101 [1732.7s-1753.7s]    KEEP    Also, as part of that webinar, you'll get added into my telegram channel, the iOS or I operating system, which is what I'm calling this. You'll get access to the Ground Zero telegram channel, where I'm constantly dropping in my learnings and my my, where I'm constantly dropping in my learnings and findings shared from all of my shared from shared, shared from that, that come from my friend group here, that come from the workshops I do with my accelerator and the community there too.
+  --> OK — details about the webinar benefits (Telegram channel, learnings). Some stammer but content is unique. Correct KEEP.
+
+L0102 [1753.9s-1770.7s]    KEEP    And you'll also get put on my newsletter list where you'll get it, put it where you where you get, where you where you get you get an email every single day breaking down what happened in that town where you'll get. Where you'll get an email every single day, breaking down what happened in that telegram channel direct to your inbox so that you can apply it to your business.
+  --> OK — newsletter benefit. Stammery but content is unique. Correct KEEP.
+
+L0103 [1770.8s-1793.9s]    KEEP    So so so so so so. I'd love to. So I'd love to. So I'd love to see you on that webinar. It'll be the first link in the description I really want to help, like tens of thousands of business owners to see and understand this stuff and apply it because I just yeah, I but because, because, because, because, because this stuff is the future.
+  --> BORDERLINE: Very stammery opening ("so so so so so so") but the heart of the message (passion, wants to help tens of thousands, first link in description) is genuine and CTA-reinforcing. L0104 continues the thought more cleanly. Could go either way — the "first link in the description" CTA detail is useful. Lean KEEP but needs heavy edit.
+
+L0104 [1793.9s-1808.7s]    KEEP    It's already here and you can start to use it. And because, because, because, because this stuff is the future and because, because the future is already here. This is it. This is how businesses are going to be run in the next two, 3 or 4 years. You can have it right now, and I'd love to be able to share with you what I'm learning.
+  --> OK — strong closing statement. "The future is already here / businesses will be run this way in 2-3 years / you can have it right now" is a compelling sequence. Stammer is trimmable. Correct KEEP.
+
+L0105 [1808.7s-1835.6s]    CUT@P1  As you can tell, I'm pretty fired up by it. If you if you and if and if and if you and if you are a bit impatient and you want to and if you are and if you and if and if you are a bit impatient and you want to get access to a community, a templates and all the knowledge and if and if you're and may and if you are impatient and you want to get access right now rather than wait for the webinar, you can see if you're a good fit for my accelerator program, where every single day, Monday to Friday, I'm doing an hour long workshop with my community showing you what
+  --> OK — accelerator upsell attempt but catastrophic stammer. Correctly cut.
+
+L0106 [1835.6s-1856.8s]    CUT@P1  I'm learning here. Doing live builds. Doing belongs workshop to the community where you can, but you can work where you can. And and it's and and it and it's and it's and it's a place you can go to be at the and it's a place you can go to be surrounded by people who are. And, and it's a place you can go to be in a community where you're surrounded by people who are at the tip of the spear.
+  --> OK — continues L0105 accelerator pitch, still very stammery. Correctly cut.
+
+L0107 [1856.8s-1872.9s]    CUT@P1  And it's a it's a community where you can go to be around people who at the tip of the spear and pioneering this thing and, and and, and and and and pioneering this new and pioneering this new future of business.
+  --> OK — continues stammer loop. Correctly cut.
+
+L0108 [1873.0s-1886.7s]    KEEP    So, so that's all for this video, guys. I hope I've convinced you, or at least made you curious enough to think about if this is the case and if you. So that's all for the video, guys. Thank you so much for watching. I hope I've been out to convince you to at least give this a chance, because you may.
+  --> OK — first outro attempt. Has a restart ("So that's all... So that's all") but the second version is clean. Editor can trim the first half. Correct KEEP.
+
+L0109 [1886.8s-1905.2s]    KEEP    And that's, And that's all for the video, guys. I hope I've been able to convince you to at least be open minded enough to consider this, because I can tell you, you definitely want this outcome, not just for your business. You can check out my video up here where I'm break it down my full system of how you can if you if you want to watch, if you want to watch something else, if you want to watch something else for me to get more.
+  --> BORDERLINE: This is another take of the outro. The "open minded enough to consider this" framing is slightly better than L0108's. But keeping BOTH L0108 and L0109 means the viewer hears two sign-offs. Ideally only keep one. L0109 has the better framing but L0108 has the cleaner ending. The editor can probably cut between them. Lean OK as-is — editor will pick the best parts from both.
+
+L0110 [1905.3s-1921.5s]    KEEP    If you want to watch something else for me to get more context on how I plan to automate my business and get 60 to 70% of my work automated in the next 30 days, you can check out this video up here. I do a full breakdown, but aside from that, guys! Hope to see you in the webinar. Hope to see you playing this stuff and subscribe to the channel for more on this, because I'm going to be absolutely repping it over the next few months for you guys.
+  --> OK — clean video end card + final CTA. Good energy. Correct KEEP.
+
+L0111 [1921.6s-1922.4s]    CUT@P1  I'll see you in the next one.
+  --> OK — too short/abrupt. L0110 is the real ending. Correctly cut.
+
+==========================================================================================
+REVIEW SUMMARY
+==========================================================================================
+
+ACCURACY: 106/111 decisions correct (95.5%)
+
+WRONG DECISIONS (5):
+  L0013 KEEP → should be CUT  (earlier take, conflicts with L0019)
+  L0014 KEEP → should be CUT  (orphaned continuation of L0013)
+  L0032 KEEP → should be CUT  (orphaned fragment, L0031 was cut)
+  L0060 KEEP → should be CUT  (14s of stammer, point already made)
+  L0099 KEEP → should be CUT  (pure stammer, L0100 is the clean take)
+
+WRONG CUT (1):
+  L0084 CUT@P3 → should be KEEP (graph visual explanation, unique content)
+
+BORDERLINE (4, not counted as wrong):
+  L0057 CUT@P3 — nice audience-addressing transition, would improve flow
+  L0071 CUT@P1 — clean point about OpenClaw memory being opaque
+  L0080 CUT@P3 — haiku/opus tier strategy detail
+  L0103 KEEP — extremely stammery but has CTA detail ("first link")
+
+NET EFFECT OF CORRECTIONS:
+  Current: 41 KEEP lines, 765s (40%)
+  Remove: L0013 (14.2s), L0014 (8.3s), L0032 (13.2s), L0060 (13.9s), L0099 (20.7s) = -70.3s
+  Add: L0084 (22.0s) = +22.0s
+  Corrected: 37 KEEP lines, ~717s (37%)
+  Published video: ~878s (46%)
+  Gap: ~161s under — suggests ~8-9 lines of good content in CUT decisions
+  that the human editor found and restored. The borderlines above account
+  for some of this gap.
+
+ERROR PATTERNS:
+  1. ORPHAN BLINDNESS (L0032, L0014): Cutting a line without checking if the
+     next KEEP depends on it. L0031 cut → L0032 is now a headless fragment.
+  2. TAKE ORDERING (L0013-L0014 vs L0019): Keeping content from multiple takes
+     of the same section without realizing they create structural conflicts
+     in timeline order. Earlier take kept alongside later take = duplicate intro.
+  3. STAMMER TOLERANCE ASYMMETRY (L0099 kept, L0084 cut): L0099 is 90%+ stammer
+     with no unique content (L0100 says the same thing cleanly). L0084 has moderate
+     stammer but unique visual content. The LLM seems to evaluate stammer density
+     inconsistently — sometimes tolerating extreme stammer (L0099) while cutting
+     moderate stammer with valuable content (L0084).
+  4. REDUNDANCY DETECTION (L0060): A stammered restatement of a point already
+     made clearly (L0056) should be cut. The LLM kept it probably because it
+     "sounds like content" even though it adds nothing.

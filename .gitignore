@@ -1,0 +1,18 @@
+# API keys and credentials
+.env
+token.json
+client_secret*.json
+
+# Large media files
+*.mp3
+*.mp4
+*.wav
+*.m4a
+
+# Audio chunks from Whisper
+chunks/
+
+# Python
+__pycache__/
+*.pyc
+.venv/

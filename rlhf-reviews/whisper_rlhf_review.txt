@@ -1,0 +1,1546 @@
+==========================================================================================
+RLHF REVIEW — Project C5296 (32 min raw → 14:38 published)
+==========================================================================================
+
+HOW TO USE THIS FILE:
+  Each line shows: line number, timestamps, the LLM's decision, and the text.
+  Decision key:
+    KEEP     = survived all 3 passes (in final cut)
+    CUT@P1   = cut in Pass 1 (initial aggressive cut)
+    CUT@P2   = survived Pass 1, cut in Pass 2 (false start / repeat hunting)
+    CUT@P3   = survived Pass 1+2, cut in Pass 3 (final QC)
+
+  ADD YOUR FEEDBACK after each line using -->
+  Examples:
+    --> WRONG: should be KEEP, this is clean delivery
+    --> WRONG: should be CUT, this is a false start
+    --> WRONG: duplicate of L0234, keep that one instead
+    --> OK
+    --> this whole section (L0100-L0120) is a redo of L0050-L0070
+
+STATS:
+  Total lines: 505
+  Raw duration: 1926s (32.1 min)
+  After Pass 1: 471 lines, 1309s (68%)
+  After Pass 2: 468 lines, 1297s (67%)
+  After Pass 3: 459 lines, 1259s (65%)
+  Target: ~45% (~867s, ~14.4 min)
+
+==========================================================================================
+TRANSCRIPT + DECISIONS
+==========================================================================================
+
+L0001 [17.5s-23.9s]        CUT@P1  Yeah no I thought I went through that same thought process that you just went
+  -->
+
+L0002 [23.9s-24.1s]        CUT@P1  through
+  -->
+
+L0003 [24.6s-25.2s]        CUT@P1  I don't know
+  -->
+
+L0004 [34.6s-37.7s]        CUT@P1  See if we had a red marker here that'd be fine
+  -->
+
+L0005 [74.4s-75.8s]        CUT@P1  When you've been using OpenClient
+  -->
+
+L0006 [76.1s-77.0s]        CUT@P1  you think about a cutting edge
+  -->
+
+L0007 [77.3s-80.8s]        CUT@P1  you're tapping into maybe 5 10  of what this technology can really do
+  -->
+
+L0008 [83.3s-84.2s]        CUT@P1  Yeah you should do it more
+  -->
+
+L0009 [84.6s-85.3s]        CUT@P1  Do it just like that
+  -->
+
+L0010 [86.4s-88.0s]        CUT@P1  If you've been using that
+  -->
+
+L0011 [88.4s-89.4s]        CUT@P1  No I'm going to hit that
+  -->
+
+L0012 [90.4s-94.8s]        CUT@P1  I'm about to start yapping for like 10 minutes so don't let me annoy you
+  -->
+
+L0013 [96.2s-97.8s]        CUT@P1  I'm being taken out today
+  -->
+
+L0014 [102.3s-103.8s]      CUT@P1  I'm going to go and take a cutting edge demo
+  -->
+
+L0015 [114.9s-117.3s]      CUT@P1  Is that Barry's side piece Yeah are you outside
+  -->
+
+L0016 [118.5s-122.4s]      CUT@P1  Yo what's up Mr Delaware first again Oh okay peace
+  -->
+
+L0017 [126.1s-126.8s]      CUT@P1  All right
+  -->
+
+L0018 [130.1s-134.0s]      KEEP    So if you've been using OpenClaw and you think you're at the cutting edge
+  -->
+
+L0019 [134.4s-148.0s]      KEEP    I can promise you that you're only getting like 5 10  of the potential
+  -->
+
+L0020 [148.0s-150.5s]      KEEP    of this kind of technology And on the other side
+  -->
+
+L0021 [150.8s-154.2s]      KEEP    if you've tried it and you're frustrated by it there's a reason for that In
+  -->
+
+L0022 [154.2s-157.2s]      KEEP    this video I'm going to break down why it is really not the right move
+  -->
+
+L0023 [157.2s-160.8s]      KEEP    It's actually open flawed and you should be using something completely different I'm going to
+  -->
+
+L0024 [160.8s-164.3s]      KEEP    be walking through my system that I've created that I've been using and I've been
+  -->
+
+L0025 [164.3s-167.8s]      KEEP    able to achieve all the same functionality and more than you're able to do with
+  -->
+
+L0026 [167.8s-169.9s]      KEEP    OpenClaw And this is the future of business
+  -->
+
+L0027 [171.3s-172.7s]      KEEP    Let's get into it
+  -->
+
+L0028 [176.3s-177.7s]      CUT@P1  I just saw your message now
+  -->
+
+L0029 [178.0s-182.9s]      CUT@P1  Yeah I think I got a little bit but
+  -->
+
+L0030 [187.9s-190.0s]      CUT@P1  I've got to film for like 10 minutes
+  -->
+
+L0031 [203.3s-209.4s]      CUT@P1  I've been cooking today for real
+  -->
+
+L0032 [212.0s-212.4s]      CUT@P1  Yeah
+  -->
+
+L0033 [213.2s-214.1s]      CUT@P1  Yeah
+  -->
+
+L0034 [216.2s-217.2s]      CUT@P1  I'm filming a video
+  -->
+
+L0035 [218.1s-218.6s]      CUT@P1  Okay
+  -->
+
+L0036 [227.0s-227.4s]      CUT@P1  Gee
+  -->
+
+L0037 [231.4s-233.9s]      CUT@P1  If you've been using OpenClaw anything
+  -->
+
+L0038 [235.2s-238.8s]      CUT@P3  So if you are a business owner who's been using OpenClaw and you think you're
+  -->
+
+L0039 [238.8s-242.5s]      CUT@P3  at the cutting edge of this technology I can promise you you're only getting maybe
+  -->
+
+L0040 [242.5s-246.3s]      CUT@P3  5 10  of the potential out of this kind of technology at the moment
+  -->
+
+L0041 [246.5s-250.3s]      CUT@P3  And on the other hand if you're someone who's maybe been less impressed or struggling
+  -->
+
+L0042 [250.3s-253.1s]      CUT@P3  with using something like this there is a reason for that and I'm going to
+  -->
+
+L0043 [253.1s-256.5s]      CUT@P3  be revealing in this video why that is The system that I've been using
+  -->
+
+L0044 [257.0s-267.6s]      CUT@P3  the system that I've created and I'm using
+  -->
+
+L0045 [268.0s-268.3s]      CUT@P1  which is
+  -->
+
+L0046 [268.7s-270.6s]      CUT@P1  the system that I've created and I've been using
+  -->
+
+L0047 [271.1s-275.8s]      CUT@P3  that is the system that I've created and I've been using that ticks all the
+  -->
+
+L0048 [275.8s-277.7s]      CUT@P3  boxes of OpenClaw and far beyond
+  -->
+
+L0049 [280.2s-285.6s]      KEEP    And the reason I'm making this video is because I've been running into so many
+  -->
+
+L0050 [285.6s-286.2s]      CUT@P1  successful
+  -->
+
+L0051 [286.8s-290.4s]      KEEP    and smart entrepreneurs who are excited about this technology naturally
+  -->
+
+L0052 [290.7s-298.6s]      KEEP    and the potential it has for being able to actually get them some time back
+  -->
+
+L0053 [298.6s-301.4s]      KEEP    and actually be able to do things for them so them as a founder aren't
+  -->
+
+L0054 [301.4s-303.7s]      CUT@P1  just changing their business like a job
+  -->
+
+L0055 [313.2s-318.4s]      KEEP    But the thing is OpenClaw is flawed it is open flawed
+  -->
+
+L0056 [319.1s-321.4s]      CUT@P1  but the thing is OpenClaw is
+  -->
+
+L0057 [321.7s-327.1s]      KEEP    open flawed There are major issues with it that are going to stop you from
+  -->
+
+L0058 [327.1s-332.5s]      KEEP    turning it into the true AI system that runs your business and does things for
+  -->
+
+L0059 [332.5s-335.5s]      KEEP    you and in this video I'm going to be breaking those down so that hopefully
+  -->
+
+L0060 [335.5s-340.2s]      KEEP    I can convince some of you to make the transition to the system that I'm
+  -->
+
+L0061 [340.2s-350.9s]      KEEP    going to talk about so that you can truly realize the benefits of this incredible
+  -->
+
+L0062 [350.9s-352.2s]      KEEP    technology that is now in our hands
+  -->
+
+L0063 [383.9s-386.8s]      KEEP    And if you guys are new to the channel and don't know who I am
+  -->
+
+L0064 [386.9s-389.7s]      KEEP    my name is Liam Motley and I've been building AI businesses for the past three
+  -->
+
+L0065 [389.7s-392.5s]      KEEP    years I've been in business for the past seven and this stuff I'm going to
+  -->
+
+L0066 [392.5s-396.4s]      KEEP    talk about in this video is by far the most exciting thing I've ever seen
+  -->
+
+L0067 [396.4s-399.5s]      KEEP    in my career as an entrepreneur I have not been able to sleep for the
+  -->
+
+L0068 [399.5s-399.7s]      CUT@P2  past
+  -->
+
+L0069 [400.2s-401.5s]      CUT@P2  I've barely slept
+  -->
+
+L0070 [401.8s-405.2s]      KEEP    I've barely left the house this week I've barely slept at all it's because this
+  -->
+
+L0071 [405.2s-406.7s]      KEEP    is truly the most exciting
+  -->
+
+L0072 [407.0s-407.3s]      CUT@P1  because
+  -->
+
+L0073 [408.5s-411.5s]      KEEP    for the first time for me and the friends that I'm here with who are
+  -->
+
+L0074 [411.5s-415.5s]      KEEP    also nerding out on getting these systems set up we can actually see us moving
+  -->
+
+L0075 [415.5s-420.4s]      KEEP    towards a future where we can use this system I'm going to explain here to
+  -->
+
+L0076 [420.4s-422.2s]      KEEP    actually automate our entire business
+  -->
+
+L0077 [424.3s-435.8s]      KEEP    and over the next 30 days I'm actually documenting my process of automating as many
+  -->
+
+L0078 [435.8s-436.3s]      KEEP    of my tasks
+  -->
+
+L0079 [446.2s-446.8s]      KEEP    as possible
+  -->
+
+L0080 [456.1s-465.0s]      KEEP    And so long story short the main difference I'm talking about here is not using
+  -->
+
+L0081 [465.0s-468.7s]      KEEP    OpenCLR or OpenFLR we are using Claude Code
+  -->
+
+L0082 [470.3s-471.7s]      KEEP    And if that sounds scary
+  -->
+
+L0083 [472.4s-476.0s]      KEEP    stick with me because yes this may sound like a dev tool but it is
+  -->
+
+L0084 [476.0s-486.6s]      KEEP    actually the most powerful AI assistant and productivity machine that I've ever seen and in
+  -->
+
+L0085 [486.6s-506.8s]      KEEP    this video I'm going to prove why you must make the switch now and in
+  -->
+
+L0086 [506.8s-509.5s]      KEEP    this video I'm going to be breaking down why you must make the switch now
+  -->
+
+L0087 [509.6s-512.3s]      KEEP    I'm going to do a side by side comparison of all the things you love
+  -->
+
+L0088 [512.3s-512.8s]      CUT@P1  about this
+  -->
+
+L0089 [513.1s-515.3s]      KEEP    and how Claude Code is so much better at everything
+  -->
+
+L0090 [516.0s-518.8s]      KEEP    and how Claude Code beats it in every realm
+  -->
+
+L0091 [519.3s-529.7s]      CUT@P2  and then I'll
+  -->
+
+L0092 [531.0s-534.2s]      KEEP    be breaking down what it actually takes to get started with this and get moving
+  -->
+
+L0093 [534.2s-538.9s]      KEEP    in the right direction and at the end of the video I'm going to be
+  -->
+
+L0094 [538.9s-544.3s]      KEEP    explaining what it actually takes to get started on building a system that will go
+  -->
+
+L0095 [544.3s-547.8s]      KEEP    like this rather than OpenCLR which is going to go like this and plateau for
+  -->
+
+L0096 [547.8s-549.0s]      KEEP    you
+  -->
+
+L0097 [554.8s-559.7s]      KEEP    So the first thing you need to understand is what OpenCLR actually is and what
+  -->
+
+L0098 [559.7s-568.8s]      KEEP    Claude Code is So there's a few so it starts off with a model of
+  -->
+
+L0099 [568.8s-571.9s]      KEEP    some sort we're going to have this as like a sphere here I'm running out
+  -->
+
+L0100 [571.9s-572.2s]      KEEP    of pen
+  -->
+
+L0101 [572.9s-574.1s]      KEEP    we have the model as a sphere
+  -->
+
+L0102 [574.8s-577.4s]      KEEP    we call this our model
+  -->
+
+L0103 [578.1s-582.0s]      KEEP    So this might be Anthropx Opus 4 6
+  -->
+
+L0104 [582.3s-590.0s]      KEEP    it might be OpenAI 5 2 whatever it is this is some kind of LLM
+  -->
+
+L0105 [590.0s-595.6s]      KEEP    or model that is our starting point
+  -->
+
+L0106 [596.0s-599.2s]      KEEP    Now what Claude Code is here is a harness
+  -->
+
+L0107 [599.6s-603.3s]      KEEP    you may have heard of ChachiBT wrappers that was kind of a slur term used
+  -->
+
+L0108 [603.3s-609.4s]      KEEP    by people to throw shade at basic applications that took the underlying model and put
+  -->
+
+L0109 [609.4s-613.3s]      KEEP    a thin layer around it and called it a business or called it a SaaS
+  -->
+
+L0110 [613.5s-617.9s]      KEEP    So that's like a wrapper and this will all make sense in a second you
+  -->
+
+L0111 [617.9s-621.9s]      KEEP    have to understand the difference to this to really fundamentally know why you must make
+  -->
+
+L0112 [621.9s-622.9s]      KEEP    the switch now
+  -->
+
+L0113 [623.7s-623.7s]      KEEP    because
+  -->
+
+L0114 [628.7s-632.2s]      KEEP    once you realize this you cannot see it because once you realize this
+  -->
+
+L0115 [633.7s-634.4s]      KEEP    you cannot go back
+  -->
+
+L0116 [634.8s-639.2s]      KEEP    So we have a wrapper here recently we've had the emergence of what's called a
+  -->
+
+L0117 [639.2s-639.2s]      KEEP    harness
+  -->
+
+L0118 [639.5s-642.7s]      KEEP    now I've still been trying to figure out where we made the jump and why
+  -->
+
+L0119 [642.7s-646.1s]      KEEP    one took over the other you don't hear much about wrappers anymore you hear all
+  -->
+
+L0120 [646.1s-647.1s]      KEEP    about a harness
+  -->
+
+L0121 [647.6s-650.6s]      KEEP    So I don't really know how to draw a harness but recently I've been drawing
+  -->
+
+L0122 [650.6s-654.0s]      KEEP    them like this think of it as this big we have this powerful orb
+  -->
+
+L0123 [655.1s-657.6s]      KEEP    and you guys can drop a like for my drawing skills because I think that's
+  -->
+
+L0124 [657.6s-658.3s]      KEEP    pretty damn good
+  -->
+
+L0125 [658.8s-662.6s]      KEEP    We have this powerful orb here which is the model so good at understanding text
+  -->
+
+L0126 [663.1s-663.5s]      KEEP    understanding images
+  -->
+
+L0127 [663.8s-665.4s]      KEEP    being able to generate things generate code
+  -->
+
+L0128 [665.9s-666.6s]      KEEP    reason through things
+  -->
+
+L0129 [667.0s-667.8s]      KEEP    look up
+  -->
+
+L0130 [669.0s-669.0s]      KEEP    analyze
+  -->
+
+L0131 [670.2s-671.5s]      KEEP    large amounts of text and code
+  -->
+
+L0132 [672.2s-675.8s]      KEEP    And what we're doing is we're putting it into a harness where I mean this
+  -->
+
+L0133 [675.8s-680.6s]      KEEP    is maybe a nice way of putting it we have this harness holding it in
+  -->
+
+L0134 [680.6s-686.0s]      KEEP    place and giving this model a whole bunch of new features and abilities in a
+  -->
+
+L0135 [686.0s-687.1s]      KEEP    very robust way
+  -->
+
+L0136 [687.5s-690.3s]      KEEP    So I haven't really figured out how to draw these yet we can maybe put
+  -->
+
+L0137 [690.3s-691.7s]      KEEP    them as like this
+  -->
+
+L0138 [692.4s-697.0s]      KEEP    so it gives it these very powerful arms that stick out and allow it to
+  -->
+
+L0139 [697.0s-699.3s]      KEEP    do things in the digital world
+  -->
+
+L0140 [700.8s-707.1s]      KEEP    And this is essentially what Claude Code is I know it may sound like a
+  -->
+
+L0141 [707.1s-709.1s]      KEEP    dev tool as you can see here and it was
+  -->
+
+L0142 [709.4s-710.7s]      KEEP    but it is also based off all of
+  -->
+
+L0143 [712.5s-715.1s]      KEEP    and it may just
+  -->
+
+L0144 [720.1s-721.8s]      KEEP    and the best
+  -->
+
+L0145 [723.6s-726.7s]      KEEP    example of a really great harness is Claude Code
+  -->
+
+L0146 [727.0s-732.4s]      KEEP    where Anthropic has poured billions of dollars into the engineers and people behind building out
+  -->
+
+L0147 [732.4s-737.2s]      KEEP    and training their harness to be able to do things like these actions being like
+  -->
+
+L0148 [737.2s-737.8s]      KEEP    reading files
+  -->
+
+L0149 [738.2s-739.6s]      KEEP    creating files deleting files
+  -->
+
+L0150 [739.9s-743.7s]      KEEP    searching the web spinning up sub agents to do deep research or spinning up sub
+  -->
+
+L0151 [743.7s-745.2s]      KEEP    agents to dig into file systems
+  -->
+
+L0152 [748.1s-750.7s]      KEEP    The harness that Claude Code has created
+  -->
+
+L0153 [751.1s-755.5s]      KEEP    the harness that Anthropic has created for Claude Code is so well created and so
+  -->
+
+L0154 [755.5s-757.4s]      KEEP    adapted to the digital environment it lives in
+  -->
+
+L0155 [757.7s-761.4s]      KEEP    it seems like an absolute genius it can plan everything out it can open files
+  -->
+
+L0156 [761.7s-761.9s]      KEEP    edit them
+  -->
+
+L0157 [762.3s-762.7s]      KEEP    search the web
+  -->
+
+L0158 [763.1s-765.0s]      KEEP    pull things in write code write text
+  -->
+
+L0159 [765.6s-766.2s]      KEEP    view images
+  -->
+
+L0160 [766.7s-767.6s]      KEEP    look view
+  -->
+
+L0161 [767.9s-768.1s]      KEEP    read
+  -->
+
+L0162 [768.7s-773.1s]      KEEP    read read images and read PDFs and basically anything you throw at it and that's
+  -->
+
+L0163 [773.1s-775.1s]      KEEP    what has made this such a powerful and explosive tool
+  -->
+
+L0164 [778.6s-801.1s]      KEEP    Now the thing is when it comes to OpenClaw
+  -->
+
+L0165 [801.7s-806.2s]      KEEP    it is essentially a wrapper or a harness that has been built by an indie
+  -->
+
+L0166 [806.2s-808.8s]      KEEP    developer to do the same thing as this
+  -->
+
+L0167 [809.1s-812.1s]      KEEP    but also connect it to Telegram or to connect it to something that's handy for
+  -->
+
+L0168 [812.1s-814.5s]      KEEP    you So we're going to go into the features in a second but I want
+  -->
+
+L0169 [814.5s-818.5s]      KEEP    to just point out that we've taken essentially the same model one of the perks
+  -->
+
+L0170 [818.5s-821.1s]      KEEP    of OpenClaw is that you can swap the model out but at the end of
+  -->
+
+L0171 [821.1s-823.4s]      KEEP    the day if you're trying to make a really powerful system would you really want
+  -->
+
+L0172 [823.4s-825.7s]      KEEP    to use anything but the most powerful models
+  -->
+
+L0173 [826.1s-828.5s]      KEEP    Opus 4 6 Sonnet the new one just came out as well
+  -->
+
+L0174 [828.9s-833.2s]      KEEP    So we have instead of this really robust and powerful harness that has had hundreds
+  -->
+
+L0175 [833.2s-837.0s]      KEEP    of millions of dollars poured into it we have instead something made by an indie
+  -->
+
+L0176 [837.0s-837.4s]      KEEP    dev
+  -->
+
+L0177 [838.1s-840.6s]      KEEP    how do I make like a janky looking harness here
+  -->
+
+L0178 [841.7s-843.5s]      KEEP    barely even hanging in there
+  -->
+
+L0179 [844.1s-848.3s]      KEEP    and no disrespect to the dude at all I'm not saying I could do any
+  -->
+
+L0180 [848.3s-854.2s]      KEEP    better it's just the reality of one dude making something that's just trying to replicate
+  -->
+
+L0181 [854.2s-858.8s]      KEEP    what has been done by one of the most valuable AI start ups or technology
+  -->
+
+L0182 [858.8s-861.3s]      KEEP    start ups in the world right now with the best talent in the world
+  -->
+
+L0183 [861.8s-863.6s]      KEEP    And so it's essentially clawed code
+  -->
+
+L0184 [864.0s-867.5s]      KEEP    and you've ripped off all of the arms so you've ripped these off you've taken
+  -->
+
+L0185 [867.5s-870.6s]      KEEP    away all of its ability to read files and view
+  -->
+
+L0186 [871.3s-872.0s]      KEEP    read files view files
+  -->
+
+L0187 [872.9s-873.6s]      KEEP    search the web et cetera
+  -->
+
+L0188 [873.9s-877.0s]      KEEP    and you've stripped it back to just this model and then you've dumped it in
+  -->
+
+L0189 [877.0s-878.1s]      KEEP    a crappier harness
+  -->
+
+L0190 [878.5s-879.2s]      KEEP    again no disrespect
+  -->
+
+L0191 [879.5s-881.6s]      KEEP    but it actually is this
+  -->
+
+L0192 [882.0s-887.0s]      KEEP    because it and then and then tried to kind of Frankenstein and duct tape on
+  -->
+
+L0193 [887.0s-888.3s]      KEEP    the same arms
+  -->
+
+L0194 [889.2s-900.3s]      KEEP    so the same
+  -->
+
+L0195 [906.4s-922.1s]      KEEP    arms Frankenstein the same arms and so for example
+  -->
+
+L0196 [923.1s-927.0s]      KEEP    for example there's a whole bunch of great stuff that comes out of the box
+  -->
+
+L0197 [927.0s-930.9s]      KEEP    with clawed code like web searching which is super native they've spent tons of money
+  -->
+
+L0198 [930.9s-934.6s]      KEEP    training it and doing post training to get it to really use these web search
+  -->
+
+L0199 [934.6s-937.5s]      KEEP    tools very well to be able to spin up deep research agents to go out
+  -->
+
+L0200 [937.5s-941.6s]      KEEP    and search the web separately come back and feed you information and all of this
+  -->
+
+L0201 [941.6s-946.0s]      KEEP    stuff you now have to like kind of plug in using third party tools and
+  -->
+
+L0202 [946.0s-950.0s]      KEEP    try to recreate this with an inferior harness that has not been trained with nearly
+  -->
+
+L0203 [950.0s-954.6s]      KEEP    as much effort and resources So that is the clear difference and that is why
+  -->
+
+L0204 [954.7s-957.8s]      KEEP    out of the box this thing is so much more powerful has been refined over
+  -->
+
+L0205 [957.8s-958.9s]      KEEP    billions of dollars
+  -->
+
+L0206 [959.3s-962.7s]      KEEP    and this thing is made by an indie developer where you have to basically plug
+  -->
+
+L0207 [962.7s-964.5s]      KEEP    in all of the things just to get it to baseline
+  -->
+
+L0208 [964.9s-965.9s]      KEEP    and by by nature and by plug in all of the things just to get
+  -->
+
+L0209 [965.9s-966.5s]      KEEP    it to baseline
+  -->
+
+L0210 [967.4s-970.8s]      KEEP    And by nature that means it's not going to perform as well
+  -->
+
+L0211 [971.1s-973.4s]      KEEP    Now I hear what you're saying You may be like oh but I can connect
+  -->
+
+L0212 [973.4s-974.1s]      KEEP    this to Telegram
+  -->
+
+L0213 [974.6s-977.7s]      KEEP    Cool we can do that too Oh but I can set up Cron jobs and
+  -->
+
+L0214 [977.7s-979.8s]      KEEP    it'll do stuff for me Cool you can set that up too
+  -->
+
+L0215 [980.4s-984.0s]      KEEP    Everything that you could do with OpenClaw and that you love about it you can
+  -->
+
+L0216 [984.0s-990.4s]      KEEP    do with this in a completely custom setup You can have as many
+  -->
+
+L0217 [990.7s-995.0s]      KEEP    in a completely custom setup that ties into all your own workflows and ultimately it
+  -->
+
+L0218 [995.0s-996.2s]      KEEP    is far more controllable
+  -->
+
+L0219 [996.7s-1003.8s]     KEEP    and scalable long term than something like Clawed Bot where the performance is going to
+  -->
+
+L0220 [1003.8s-1007.3s]    KEEP    flatten out as the complexity scales I've been building my system now for coming up
+  -->
+
+L0221 [1007.3s-1007.8s]    KEEP    two weeks
+  -->
+
+L0222 [1009.2s-1014.6s]    KEEP    and I can assure you the levels of complexity that I'm reaching now with the
+  -->
+
+L0223 [1014.6s-1014.9s]    KEEP    workflows
+  -->
+
+L0224 [1015.6s-1016.1s]    KEEP    the layers of data
+  -->
+
+L0225 [1016.5s-1019.9s]    KEEP    the documentation there is no fricking way you could achieve what I'm getting out of
+  -->
+
+L0226 [1019.9s-1022.7s]    KEEP    it right now And I've got a video coming down It might've already been out
+  -->
+
+L0227 [1022.7s-1025.6s]    KEEP    but you can see all of the stuff that I've built and also the things
+  -->
+
+L0228 [1025.6s-1026.9s]    KEEP    that I'm looking to build in the future
+  -->
+
+L0229 [1027.5s-1029.3s]    KEEP    So understanding what a harness is
+  -->
+
+L0230 [1029.7s-1032.7s]    KEEP    that this is a great harness proven with lots of money and this one is
+  -->
+
+L0231 [1032.7s-1040.0s]    KEEP    fundamentally not as good
+  -->
+
+L0232 [1049.8s-1052.9s]    KEEP    I think the best way I put it is
+  -->
+
+L0233 [1053.4s-1056.7s]    KEEP    you've essentially taken a Ferrari's engine well you've got a whole Ferrari here and you've
+  -->
+
+L0234 [1056.7s-1060.9s]    KEEP    taken the Ferrari's engine out ripped the model out and then dumped the engine the
+  -->
+
+L0235 [1060.9s-1064.7s]    KEEP    really powerful model into a crappy chassis So you chuck it in a Honda That's
+  -->
+
+L0236 [1064.7s-1066.7s]    KEEP    the best way to explain what has happened here
+  -->
+
+L0237 [1067.4s-1071.0s]    KEEP    You've got the incredible power of the core model
+  -->
+
+L0238 [1071.5s-1075.9s]    KEEP    but it's just in a really bad structure to allow it to do what the
+  -->
+
+L0239 [1075.9s-1077.7s]    KEEP    model or the engine was intended to do
+  -->
+
+L0240 [1083.4s-1086.1s]    KEEP    Okay so I just quickly want to riff through some of the things that when
+  -->
+
+L0241 [1086.1s-1087.2s]    KEEP    I try to convince
+  -->
+
+L0242 [1087.6s-1091.3s]    KEEP    entrepreneurs that I meet to make the shift they're like no no but I've got
+  -->
+
+L0243 [1091.3s-1093.9s]    KEEP    it working and I can put it on my telegram and I've got this and
+  -->
+
+L0244 [1093.9s-1098.6s]    KEEP    this Let's just run through a few of the best the biggest sales points of
+  -->
+
+L0245 [1098.6s-1102.1s]    KEEP    something like OpenClaw and why you can do all of it and better with cloud
+  -->
+
+L0246 [1102.1s-1102.8s]    KEEP    code
+  -->
+
+L0247 [1104.1s-1104.9s]    KEEP    So firstly
+  -->
+
+L0248 [1106.3s-1106.5s]    KEEP    telegram
+  -->
+
+L0249 [1109.5s-1109.5s]    KEEP    WhatsApp
+  -->
+
+L0250 [1111.8s-1118.1s]    KEEP    et cetera deployment You can access your OpenClaw through a platform of your choice
+  -->
+
+L0251 [1118.5s-1121.9s]    KEEP    Cool you can do that too In fact because it's custom and you can control
+  -->
+
+L0252 [1121.9s-1122.3s]    KEEP    everything
+  -->
+
+L0253 [1122.8s-1126.0s]    KEEP    I have created mine on my phone to be far more powerful I can't go
+  -->
+
+L0254 [1126.0s-1129.0s]    KEEP    into it into this video but where you can have layers and layers of complexity
+  -->
+
+L0255 [1129.0s-1133.5s]    KEEP    where you have orchestrator agents you have separate subtopics I've fully customized it to have
+  -->
+
+L0256 [1133.5s-1135.4s]    KEEP    daily briefs coming into the telegram and different channels
+  -->
+
+L0257 [1136.0s-1138.1s]    KEEP    full customization of my telegram setup
+  -->
+
+L0258 [1143.8s-1146.5s]    KEEP    And that is ultimately where we're trying to get it where we can run our
+  -->
+
+L0259 [1146.5s-1147.3s]    KEEP    business from the phone
+  -->
+
+L0260 [1149.4s-1150.2s]    KEEP    So secondly
+  -->
+
+L0261 [1150.9s-1159.8s]    KEEP    Cronjobs this is a core feature of OpenClaw that allows you to set up recurring
+  -->
+
+L0262 [1159.8s-1161.4s]    KEEP    jobs So it'll ping it'll say
+  -->
+
+L0263 [1161.8s-1163.1s]    KEEP    hey okay can you please do this thing
+  -->
+
+L0264 [1164.0s-1166.9s]    KEEP    One the way that it's done in OpenClaw is very confusing and in my opinion
+  -->
+
+L0265 [1166.9s-1167.5s]    KEEP    not that great
+  -->
+
+L0266 [1167.8s-1168.3s]    KEEP    And two
+  -->
+
+L0267 [1168.6s-1171.6s]    KEEP    you can set it up in Cloud Code yourself fully custom you can have layers
+  -->
+
+L0268 [1171.6s-1177.0s]    KEEP    and layers and layers of them and just like everything else it's much more controllable
+  -->
+
+L0269 [1177.0s-1181.7s]    KEEP    and just like everything else it's much more controllable and you can fully understand what's
+  -->
+
+L0270 [1181.7s-1182.7s]    KEEP    going on much more easily
+  -->
+
+L0271 [1184.5s-1185.0s]    KEEP    Third
+  -->
+
+L0272 [1185.5s-1186.2s]    KEEP    so that's tech
+  -->
+
+L0273 [1186.7s-1187.1s]    KEEP    Third is memory
+  -->
+
+L0274 [1189.8s-1193.4s]    KEEP    Another great thing is like oh it learns about me and it updates and the
+  -->
+
+L0275 [1193.4s-1196.2s]    KEEP    thing is it's a memory system that is kind of opaque and harder for you
+  -->
+
+L0276 [1196.2s-1198.7s]    KEEP    to maintain yourself and make modifications to
+  -->
+
+L0277 [1205.1s-1210.1s]    KEEP    And not only does my Cloud Code set up have memory
+  -->
+
+L0278 [1210.6s-1211.9s]    KEEP    it has layers and layers of documents
+  -->
+
+L0279 [1212.4s-1212.4s]    KEEP    26
+  -->
+
+L0280 [1213.8s-1216.1s]    KEEP    Not only does my Cloud Code have memory
+  -->
+
+L0281 [1216.5s-1217.5s]    KEEP    it has a very
+  -->
+
+L0282 [1218.1s-1221.6s]    KEEP    not only do I have memory in my Cloud Code set up I have a
+  -->
+
+L0283 [1221.6s-1227.2s]    KEEP    very structured context OS that allows me to continually keep that updated Also by documentation
+  -->
+
+L0284 [1227.2s-1228.7s]    KEEP    of new features I have
+  -->
+
+L0285 [1230.5s-1238.1s]    KEEP    very importantly I have a full database with all of my business data condensed into
+  -->
+
+L0286 [1238.1s-1240.9s]    KEEP    one place where I pull from all my data sources into one place
+  -->
+
+L0287 [1242.0s-1245.4s]    KEEP    and my telegram assistant has access to be able to query that data
+  -->
+
+L0288 [1245.7s-1248.4s]    KEEP    get any information I want
+  -->
+
+L0289 [1254.5s-1259.1s]    KEEP    So overall I have a more structured context OS and a more comprehensive memory system
+  -->
+
+L0290 [1259.1s-1260.7s]    KEEP    that I can control down to the
+  -->
+
+L0291 [1261.1s-1264.0s]    KEEP    so overall I have a more comprehensive memory system that I have full control over
+  -->
+
+L0292 [1264.1s-1266.9s]    KEEP    and I have it connected to a database that has all of my business data
+  -->
+
+L0293 [1266.9s-1268.2s]    KEEP    in it as well
+  -->
+
+L0294 [1272.2s-1273.7s]    KEEP    Fourth is web searching
+  -->
+
+L0295 [1276.2s-1279.6s]    KEEP    This is a pretty easy one Cloud Code has native web searching and also deep
+  -->
+
+L0296 [1279.6s-1281.0s]    KEEP    research agents that can be kicked off
+  -->
+
+L0297 [1281.4s-1284.0s]    KEEP    So the web searching in Cloud Code is native it's been trained on it
+  -->
+
+L0298 [1284.7s-1288.2s]    KEEP    it is fundamentally better than plugging in some
+  -->
+
+L0299 [1288.9s-1289.9s]    KEEP    it is fundamentally
+  -->
+
+L0300 [1290.4s-1291.5s]    KEEP    it is fundamentally
+  -->
+
+L0301 [1292.2s-1297.9s]    KEEP    it is categorically better than using some plugged in third party tool to provide web
+  -->
+
+L0302 [1297.9s-1299.1s]    KEEP    searching capabilities to your OpenClaw
+  -->
+
+L0303 [1299.6s-1301.0s]    KEEP    So we win there as well
+  -->
+
+L0304 [1305.4s-1307.0s]    KEEP    Fifth is model agnostic
+  -->
+
+L0305 [1311.5s-1314.6s]    KEEP    Sure OpenClaw allows you to plug in a whole bunch of crappier models than Opus
+  -->
+
+L0306 [1314.6s-1319.0s]    KEEP    4 6 or whatever the latest one is Personally I'm doing some pretty crazy stuff
+  -->
+
+L0307 [1319.1s-1320.2s]    KEEP    with these
+  -->
+
+L0308 [1321.3s-1324.4s]    KEEP    personally I'm using this thing for some really complex business processes
+  -->
+
+L0309 [1325.3s-1327.3s]    KEEP    analysis of data
+  -->
+
+L0310 [1327.9s-1327.9s]    KEEP    trends
+  -->
+
+L0311 [1328.4s-1330.1s]    KEEP    analysis of data analysis of data
+  -->
+
+L0312 [1330.6s-1331.4s]    KEEP    analysis of data
+  -->
+
+L0313 [1331.8s-1332.4s]    KEEP    research and trends
+  -->
+
+L0314 [1333.2s-1337.6s]    KEEP    strategy So I want the Ferrari engine I don't want the Civic engine put in
+  -->
+
+L0315 [1337.6s-1338.0s]    KEEP    this thing
+  -->
+
+L0316 [1341.3s-1344.6s]    KEEP    Again and Anthropic does have three different model tiers Hiku Sonnet
+  -->
+
+L0317 [1345.0s-1345.4s]    KEEP    and Opus
+  -->
+
+L0318 [1346.3s-1351.1s]    KEEP    I use Hiku for my Telegram orchestrator to keep the cost low there and then
+  -->
+
+L0319 [1351.1s-1353.5s]    KEEP    I only bust out Opus for the big tasks when I need it So
+  -->
+
+L0320 [1353.9s-1356.7s]    KEEP    I mean sure you could maybe say you beat us there but at the end
+  -->
+
+L0321 [1356.7s-1358.8s]    KEEP    of the day this is gonna be used for very complex things
+  -->
+
+L0322 [1359.1s-1363.6s]    KEEP    I want the best engine or brain driving that and if I want to I
+  -->
+
+L0323 [1363.6s-1365.1s]    KEEP    can always downgrade to a cheaper version
+  -->
+
+L0324 [1366.1s-1371.9s]    KEEP    to a cheaper model and bring my cost down You can plug in your Anthropic
+  -->
+
+L0325 [1371.9s-1375.2s]    KEEP    plan and pay what is it 50 or 90 I think 50 bucks is one
+  -->
+
+L0326 [1375.2s-1378.4s]    KEEP    of the lower plans I'm on the 200 plan and I'm absolutely smashing this thing
+  -->
+
+L0327 [1378.4s-1382.2s]    KEEP    every day I've only hit limits once or twice in which case it is well
+  -->
+
+L0328 [1382.2s-1383.3s]    KEEP    worth the 200 I'm spending
+  -->
+
+L0329 [1415.9s-1419.8s]    KEEP    Okay so I hope you can agree here that this is clearly the answer
+  -->
+
+L0330 [1420.2s-1422.5s]    KEEP    but what does it actually take to get this set up What does it cost
+  -->
+
+L0331 [1422.5s-1424.9s]    KEEP    to make the transition You might feel like you've sunk a whole lot of time
+  -->
+
+L0332 [1424.9s-1428.0s]    KEEP    and effort into this already and I promise you you need to understand
+  -->
+
+L0333 [1429.5s-1432.5s]    KEEP    and just on that note you really need to understand this graph here
+  -->
+
+L0334 [1432.9s-1435.0s]    KEEP    You will get quick results with your open core
+  -->
+
+L0335 [1435.3s-1438.1s]    KEEP    but as complexity scales and you want to build more and more and more into
+  -->
+
+L0336 [1438.1s-1439.5s]    KEEP    it it is going to suffer
+  -->
+
+L0337 [1439.8s-1442.3s]    KEEP    It might even start performing worse over time
+  -->
+
+L0338 [1442.6s-1447.3s]    KEEP    Compared with something like Claude Code where when you use the proper template to get
+  -->
+
+L0339 [1447.3s-1448.5s]    KEEP    things set up a good base
+  -->
+
+L0340 [1451.6s-1456.9s]    KEEP    and build on top of that in the right way you can see compounding benefits
+  -->
+
+L0341 [1457.0s-1460.1s]    KEEP    There is no limit that I've found so far to the scale and complexity that
+  -->
+
+L0342 [1460.1s-1461.1s]    KEEP    I've built into my system
+  -->
+
+L0343 [1471.1s-1474.3s]    KEEP    In terms of as I said
+  -->
+
+L0344 [1480.8s-1484.0s]    KEEP    now as I said to get started it is important that you start off with
+  -->
+
+L0345 [1484.0s-1484.1s]    KEEP    the
+  -->
+
+L0346 [1496.4s-1499.7s]    KEEP    unfortunately to get started this is not as easy just running on command and getting
+  -->
+
+L0347 [1499.7s-1500.4s]    KEEP    things off the ground
+  -->
+
+L0348 [1500.8s-1503.1s]    KEEP    There is a bit more setup involved and a little bit more of a technical
+  -->
+
+L0349 [1503.1s-1503.4s]    KEEP    barrier
+  -->
+
+L0350 [1503.9s-1505.9s]    KEEP    but that should not stop you from pursuing this
+  -->
+
+L0351 [1506.3s-1507.1s]    KEEP    I've been sitting here with
+  -->
+
+L0352 [1510.0s-1515.2s]    KEEP    but that should not stop you from pursuing this I've literally been sitting here We're
+  -->
+
+L0353 [1515.2s-1518.2s]    KEEP    doing this generational Claude Code lock in here If you want to see the behind
+  -->
+
+L0354 [1518.2s-1521.3s]    KEEP    the scenes of me and my friends absolutely geeking out on this stuff up till
+  -->
+
+L0355 [1521.3s-1525.4s]    KEEP    three four 5 a m absolutely nerding out going all in on this stuff to
+  -->
+
+L0356 [1525.4s-1526.5s]    KEEP    build these systems for our businesses
+  -->
+
+L0357 [1528.6s-1531.6s]    KEEP    while I've been here with them
+  -->
+
+L0358 [1533.1s-1534.8s]    KEEP    some of them are completely non technical
+  -->
+
+L0359 [1535.2s-1536.5s]    KEEP    and just by being in the right room
+  -->
+
+L0360 [1537.0s-1537.0s]    KEEP    using
+  -->
+
+L0361 [1539.7s-1542.9s]    KEEP    some of them are completely non technical and by setting them up on the
+  -->
+
+L0362 [1543.7s-1546.7s]    KEEP    some of them are completely non technical never touched line of code in their life
+  -->
+
+L0363 [1546.7s-1553.9s]    KEEP    and by using and by and by using my template which is baked and by
+  -->
+
+L0364 [1553.9s-1555.2s]    KEEP    using my template which is
+  -->
+
+L0365 [1555.5s-1558.9s]    KEEP    and by using my starter template which is baked in with the right commands to
+  -->
+
+L0366 [1558.9s-1559.1s]    KEEP    use
+  -->
+
+L0367 [1560.9s-1564.8s]    KEEP    and by using my template which is and by using my template which is the
+  -->
+
+L0368 [1564.8s-1567.1s]    KEEP    right folder structure setup to get you started in the right direction
+  -->
+
+L0369 [1567.4s-1571.7s]    KEEP    and also the right commands to use where Claude Code is basically forced to help
+  -->
+
+L0370 [1571.7s-1572.9s]    KEEP    you to come up
+  -->
+
+L0371 [1573.4s-1576.7s]    KEEP    where Claude Code is basically where Claude Code is basically forced to help you to
+  -->
+
+L0372 [1576.7s-1578.6s]    KEEP    spec out and come up with a night
+  -->
+
+L0373 [1579.7s-1584.5s]    KEEP    where Claude where Claude where Claude where Claude Code is forced to become your where
+  -->
+
+L0374 [1584.5s-1588.1s]    KEEP    Claude Code is forced where Claude where Claude Code is forced to become your assistant
+  -->
+
+L0375 [1588.1s-1589.8s]    KEEP    in getting this set up where you just say
+  -->
+
+L0376 [1590.1s-1592.5s]    KEEP    this is what I want it's gonna walk you through a bunch of questions to
+  -->
+
+L0377 [1592.5s-1595.9s]    KEEP    figure out exactly what you want and then technically spec that search the web figure
+  -->
+
+L0378 [1595.9s-1597.1s]    KEEP    out how to do it
+  -->
+
+L0379 [1597.8s-1601.1s]    KEEP    and then from there and then and then and then from and then from there
+  -->
+
+L0380 [1601.4s-1604.6s]    KEEP    and then from there it can actually build and implement it into your workspace
+  -->
+
+L0381 [1612.8s-1613.9s]    KEEP    It can actually build and implement it into your workspace The other The other
+  -->
+
+L0382 [1614.4s-1617.8s]    KEEP    The other The other thing The other thing The other thing you're gonna The other
+  -->
+
+L0383 [1617.8s-1619.2s]    KEEP    thing you're gonna The other thing you're gonna
+  -->
+
+L0384 [1619.8s-1621.7s]    KEEP    The other thing you're gonna need The other thing you're gonna need aside from
+  -->
+
+L0385 [1622.0s-1625.0s]    KEEP    The other thing you're gonna need aside from a good starting template is to be
+  -->
+
+L0386 [1625.0s-1628.4s]    KEEP    surrounded by people who are also doing this that's why I'm supposed to have left
+  -->
+
+L0387 [1628.4s-1631.4s]    KEEP    Cape Town already but I decided to stay because my friends are here and they're
+  -->
+
+L0388 [1631.4s-1634.7s]    KEEP    also all over this And we are just sharing learnings around When I build something
+  -->
+
+L0389 [1634.7s-1637.5s]    KEEP    here I just tell my agent to pull it all into a markdown file
+  -->
+
+L0390 [1638.0s-1640.4s]    KEEP    pass it over to airdrop it airdrop it over to them
+  -->
+
+L0391 [1640.7s-1641.7s]    KEEP    they tell it they
+  -->
+
+L0392 [1643.0s-1646.2s]    KEEP    airdrop it over to them they tell their agent to install this and it can
+  -->
+
+L0393 [1646.4s-1648.1s]    KEEP    and they can and they can
+  -->
+
+L0394 [1648.4s-1651.0s]    KEEP    and within a few minutes they can have the same functionality
+  -->
+
+L0395 [1651.8s-1654.6s]    KEEP    and within a few minutes and within a few minutes they can have the same
+  -->
+
+L0396 [1654.6s-1657.2s]    KEEP    functionality that I just created and it took me a few hours to do
+  -->
+
+L0397 [1664.9s-1665.6s]    KEEP    So so with all this
+  -->
+
+L0398 [1670.6s-1670.9s]    KEEP    so
+  -->
+
+L0399 [1682.0s-1682.4s]    KEEP    so
+  -->
+
+L0400 [1683.0s-1684.6s]    KEEP    so so with all of this in mind I'm honestly
+  -->
+
+L0401 [1685.6s-1685.9s]    KEEP    so
+  -->
+
+L0402 [1686.2s-1687.4s]    KEEP    so with all this in mind
+  -->
+
+L0403 [1688.3s-1688.6s]    KEEP    so
+  -->
+
+L0404 [1690.4s-1693.8s]    KEEP    so so with all that in mind I'm actually running a webinar that's gonna be
+  -->
+
+L0405 [1693.8s-1696.2s]    KEEP    kicking off next week depending on when you're watching this but there'll be a link
+  -->
+
+L0406 [1696.2s-1696.7s]    KEEP    in the description
+  -->
+
+L0407 [1697.4s-1700.9s]    KEEP    There's far too much I just literally did a workshop with my Accelerator community today
+  -->
+
+L0408 [1700.9s-1705.1s]    KEEP    walking them through it there's just so much to get through that I that I
+  -->
+
+L0409 [1706.1s-1707.3s]    KEEP    that I'm that I'm gonna
+  -->
+
+L0410 [1707.7s-1708.5s]    KEEP    that I'm
+  -->
+
+L0411 [1708.9s-1709.5s]    KEEP    that I'm
+  -->
+
+L0412 [1711.0s-1714.4s]    KEEP    that I'm that I'm gonna that I'm gonna be doing a that I'm gonna be
+  -->
+
+L0413 [1714.4s-1716.8s]    KEEP    doing a full webinar breaking down everything you need as to
+  -->
+
+L0414 [1719.3s-1721.9s]    KEEP    so so I'm gonna be so I'm gonna be doing
+  -->
+
+L0415 [1722.3s-1725.5s]    KEEP    so I'm gonna be doing a full free webinar for any business owners who wanna
+  -->
+
+L0416 [1725.5s-1726.6s]    KEEP    understand what this is
+  -->
+
+L0417 [1727.0s-1728.9s]    KEEP    see what my system is and how I'm running it
+  -->
+
+L0418 [1729.2s-1732.1s]    KEEP    understand what steps I need to take to get this set up and also to
+  -->
+
+L0419 [1732.1s-1734.8s]    KEEP    be able to grab my free template that is exactly what you need to get
+  -->
+
+L0420 [1734.8s-1738.0s]    KEEP    started and moving in the right direction Also as part of that webinar you'll get
+  -->
+
+L0421 [1738.0s-1741.9s]    KEEP    added into my Telegram channel the AIOS or AI Operating System which is what I'm
+  -->
+
+L0422 [1741.9s-1742.4s]    KEEP    calling this
+  -->
+
+L0423 [1742.9s-1746.2s]    KEEP    You'll get access to the Ground Zero Telegram channel where I'm constantly dropping in my
+  -->
+
+L0424 [1746.2s-1747.3s]    KEEP    learnings and my
+  -->
+
+L0425 [1747.6s-1749.6s]    KEEP    where I'm constantly dropping in my learnings and findings
+  -->
+
+L0426 [1750.0s-1751.1s]    KEEP    shared from all of my community
+  -->
+
+L0427 [1751.4s-1751.7s]    KEEP    shared from
+  -->
+
+L0428 [1752.1s-1755.7s]    KEEP    shared from that come from my friend group here that come from the workshops I
+  -->
+
+L0429 [1755.7s-1757.4s]    KEEP    do at my accelerator and the community there too
+  -->
+
+L0430 [1757.7s-1759.9s]    KEEP    and you'll also get put on my newsletter list where you'll get a put a
+  -->
+
+L0431 [1760.3s-1761.2s]    KEEP    where you'll where you'll get
+  -->
+
+L0432 [1761.6s-1764.2s]    KEEP    where you'll where you'll get a where you'll get an email every single day breaking
+  -->
+
+L0433 [1764.2s-1767.2s]    KEEP    down what happened in that Telegram where you'll get where you'll get an email every
+  -->
+
+L0434 [1767.2s-1770.5s]    KEEP    single day breaking down what happened in that Telegram channel direct to your inbox so
+  -->
+
+L0435 [1770.5s-1771.8s]    KEEP    that you can apply it to your business
+  -->
+
+L0436 [1774.5s-1774.9s]    KEEP    So
+  -->
+
+L0437 [1776.7s-1777.1s]    KEEP    so
+  -->
+
+L0438 [1777.8s-1782.5s]    KEEP    so so so I'd love to so I'd love to so I'd love to see
+  -->
+
+L0439 [1782.5s-1784.3s]    KEEP    you on that webinar it'll be the first link in the description
+  -->
+
+L0440 [1784.6s-1785.5s]    KEEP    I really want to help like
+  -->
+
+L0441 [1786.3s-1789.0s]    KEEP    tens of thousands of business owners to see and understand this stuff and apply it
+  -->
+
+L0442 [1789.0s-1789.3s]    KEEP    because
+  -->
+
+L0443 [1789.7s-1790.3s]    KEEP    I just
+  -->
+
+L0444 [1790.7s-1790.9s]    KEEP    yeah
+  -->
+
+L0445 [1791.3s-1791.6s]    KEEP    I
+  -->
+
+L0446 [1792.4s-1792.7s]    KEEP    because
+  -->
+
+L0447 [1793.1s-1793.4s]    KEEP    because
+  -->
+
+L0448 [1794.0s-1794.4s]    KEEP    because
+  -->
+
+L0449 [1795.2s-1795.6s]    KEEP    because
+  -->
+
+L0450 [1796.2s-1799.7s]    KEEP    because this stuff is the future it's already here and you can start to use
+  -->
+
+L0451 [1799.7s-1799.9s]    KEEP    it
+  -->
+
+L0452 [1800.5s-1801.4s]    KEEP    and because because
+  -->
+
+L0453 [1802.0s-1806.0s]    KEEP    because because this stuff is the future and because because the future is already here
+  -->
+
+L0454 [1806.1s-1808.6s]    KEEP    this is it this is how businesses are going to be run in the next
+  -->
+
+L0455 [1808.6s-1808.8s]    KEEP    two
+  -->
+
+L0456 [1809.2s-1811.7s]    KEEP    four years you can have it right now and I'd love to be able to
+  -->
+
+L0457 [1811.7s-1814.3s]    KEEP    share with you what I'm learning as you can tell I'm pretty fired up by
+  -->
+
+L0458 [1814.3s-1814.9s]    KEEP    it
+  -->
+
+L0459 [1816.2s-1816.5s]    KEEP    If you
+  -->
+
+L0460 [1817.2s-1817.7s]    KEEP    if you
+  -->
+
+L0461 [1818.3s-1820.8s]    KEEP    and if and if and if you and if you are a bit impatient and
+  -->
+
+L0462 [1820.8s-1821.8s]    KEEP    you want to get and if you are
+  -->
+
+L0463 [1822.3s-1822.8s]    KEEP    and if you
+  -->
+
+L0464 [1823.1s-1825.3s]    KEEP    and if and if you are a bit impatient and you want to get access
+  -->
+
+L0465 [1825.3s-1829.3s]    KEEP    to a community the templates and all the knowledge and if and if you and
+  -->
+
+L0466 [1829.3s-1831.8s]    KEEP    maybe and if you are impatient and you want to get access right now rather
+  -->
+
+L0467 [1831.8s-1832.5s]    KEEP    than wait for the webinar
+  -->
+
+L0468 [1832.9s-1835.6s]    KEEP    you can see if you're a good fit for my accelerator program where every single
+  -->
+
+L0469 [1835.6s-1838.6s]    KEEP    day Monday to Friday I'm doing an hour long workshop with my community
+  -->
+
+L0470 [1839.2s-1843.2s]    KEEP    showing you what I'm learning here doing live builds doing build longs workshops with the
+  -->
+
+L0471 [1843.2s-1844.4s]    KEEP    community where you can where you can
+  -->
+
+L0472 [1845.4s-1846.4s]    KEEP    where you can
+  -->
+
+L0473 [1847.1s-1847.6s]    KEEP    and it's
+  -->
+
+L0474 [1848.7s-1849.3s]    KEEP    and it's
+  -->
+
+L0475 [1850.1s-1851.8s]    KEEP    and it's a place you can go to be at the
+  -->
+
+L0476 [1852.2s-1854.7s]    KEEP    and it's a place you can go to be surrounded by people who
+  -->
+
+L0477 [1855.2s-1857.7s]    KEEP    and it's a place you can go to be in a community where you're surrounded
+  -->
+
+L0478 [1857.7s-1859.5s]    KEEP    by people who are at the tip of the spear
+  -->
+
+L0479 [1860.6s-1863.6s]    KEEP    and it's community where you can go to be around people who are at the
+  -->
+
+L0480 [1863.6s-1864.1s]    KEEP    tip of the spear
+  -->
+
+L0481 [1864.5s-1865.0s]    KEEP    in pioneering this
+  -->
+
+L0482 [1868.7s-1869.9s]    KEEP    in pioneering this new
+  -->
+
+L0483 [1870.6s-1872.5s]    KEEP    in pioneering this new future of business
+  -->
+
+L0484 [1876.9s-1877.2s]    KEEP    So
+  -->
+
+L0485 [1877.6s-1880.1s]    KEEP    so that's all for this video guys I hope I've convinced you or at least
+  -->
+
+L0486 [1880.1s-1882.7s]    KEEP    made you curious enough to think about if this is the case
+  -->
+
+L0487 [1883.1s-1883.6s]    KEEP    and if you
+  -->
+
+L0488 [1884.1s-1886.6s]    KEEP    so so that's all for the video guys thank you so much for watching I
+  -->
+
+L0489 [1886.6s-1888.4s]    KEEP    hope I've been able to convince you to at least give this a chance
+  -->
+
+L0490 [1888.8s-1889.6s]    KEEP    because you may
+  -->
+
+L0491 [1891.1s-1893.8s]    KEEP    that's and that's all for the video guys I hope I've been able to convince
+  -->
+
+L0492 [1893.8s-1897.3s]    KEEP    you to at least be open minded enough to consider this because I can tell
+  -->
+
+L0493 [1897.3s-1900.5s]    KEEP    you you definitely want this outcome not this for your business you can check out
+  -->
+
+L0494 [1900.5s-1902.6s]    KEEP    my video up here where I'm breaking down my full system
+  -->
+
+L0495 [1903.3s-1903.5s]    KEEP    how I've
+  -->
+
+L0496 [1904.0s-1904.3s]    KEEP    you can
+  -->
+
+L0497 [1904.8s-1907.6s]    KEEP    if you if you wanna watch if you wanna watch something else if you wanna
+  -->
+
+L0498 [1907.6s-1908.9s]    KEEP    watch something else from me to get more
+  -->
+
+L0499 [1909.2s-1911.8s]    KEEP    if you wanna watch something else from me to get more context on how I
+  -->
+
+L0500 [1911.8s-1914.7s]    KEEP    plan to automate my business and get 60 to 70  of my work automated
+  -->
+
+L0501 [1914.8s-1917.7s]    KEEP    in the next 30 days you can check out this video up here where I
+  -->
+
+L0502 [1917.7s-1919.9s]    KEEP    do a full breakdown but aside from that guys hope to see you in the
+  -->
+
+L0503 [1919.9s-1922.4s]    KEEP    webinar hope to see you applying this stuff and subscribe to the channel for more
+  -->
+
+L0504 [1922.4s-1925.1s]    KEEP    on this because I'm gonna be absolutely ripping it over the next few months for
+  -->
+
+L0505 [1925.1s-1926.4s]    KEEP    you guys I'll see you in the next one
+  -->
