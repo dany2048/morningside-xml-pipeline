@@ -143,8 +143,10 @@ THE RAW FOOTAGE CONTAINS:
 HOW TO IDENTIFY REPEATED TAKES:
 The creator records linearly. When you see the same idea expressed multiple times within a short window (usually 30-90 seconds), those are repeated takes. The LAST complete version is almost always the best. "Complete" means: ends with a full sentence, doesn't trail off, contains the full thought.
 
+HOW TO IDENTIFY FALSE STARTS:
+"And in. And in, and in this video..." — stuttering into a line. Keep ONLY the final clean run. The speaker saying the same 1-5 words repeatedly in a loop, keep ONLY the last take.
+
 CRITICAL RULES:
-- Target: keep roughly 40-50% of total lines. This raw is ~32 min, published video is ~15 min.
 - Do NOT over-cut. When a line is clean, on-topic delivery — KEEP IT even if it sounds slightly imperfect. The human editor will handle fine cuts.
 - Only cut lines you are CONFIDENT are junk, repeats, or off-camera talk.
 - When you see repeated takes, keep the LAST complete one, cut all earlier attempts.
