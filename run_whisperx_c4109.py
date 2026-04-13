@@ -1,17 +1,24 @@
 #!/usr/bin/env python3
-"""Run WhisperX on C4109 to get forced-aligned word-level timestamps.
+"""Run WhisperX on any raw MP4 to get forced-aligned word-level timestamps.
 
 WhisperX = Whisper transcription + wav2vec2 forced alignment. Solves the
 Whisper API's silence-bleed-into-word-end bug by snapping word boundaries
 to actual phoneme on/offset from the audio waveform.
 
-Outputs:
-  outputs/rlhf/c4109_words_whisperx.json  — same shape as Whisper API cache
-  outputs/rlhf/c4109_whisperx_raw.txt     — readable dump for eyeballing
+Usage:
+  python run_whisperx_c4109.py                    # defaults to C4109 test clip
+  python run_whisperx_c4109.py --file path/to/raw.MP4
+  python run_whisperx_c4109.py --file ... --model medium
+
+Outputs (named by source file stem):
+  outputs/rlhf/<stem>_words_whisperx.json
+  outputs/rlhf/<stem>_whisperx_raw.txt
 """
 from __future__ import annotations
 
+import argparse
 import json
+import re
 import subprocess
 import tempfile
 import time
@@ -31,14 +38,25 @@ torch.load = _patched_load
 import whisperx
 
 WORKSPACE = Path("/Users/dany/Documents/Claude Workspaces/personal-workspace")
-SRC_MP4 = WORKSPACE / "reference/Raw Files Tests/20260203_C4109 (shorter clip) .MP4"
-OUT_JSON = WORKSPACE / "outputs/rlhf/c4109_words_whisperx.json"
-OUT_TXT = WORKSPACE / "outputs/rlhf/c4109_whisperx_raw.txt"
+DEFAULT_SRC_MP4 = WORKSPACE / "reference/Raw Files Tests/20260203_C4109 (shorter clip) .MP4"
+RLHF_DIR = WORKSPACE / "outputs/rlhf"
 
 # WhisperX needs CPU on Apple Silicon (no MPS support).
 DEVICE = "cpu"
 COMPUTE_TYPE = "int8"  # fastest on CPU; float32 is more accurate but slower
-MODEL_SIZE = "base"    # base/small/medium/large-v2 — start small, escalate if needed
+DEFAULT_MODEL = "base"  # base/small/medium/large-v2 — start small, escalate if needed
+
+
+def _slugify(stem: str) -> str:
+    """Make a filesystem-friendly tag from a file stem.
+    'C4109 (shorter clip) ' -> 'c4109'
+    '20260208_C4340'        -> 'c4340'
+    """
+    m = re.search(r"[Cc]\d{3,5}", stem)
+    if m:
+        return m.group(0).lower()
+    # fallback: keep alphanum + underscore, lowercased
+    return re.sub(r"[^a-zA-Z0-9_]+", "_", stem).strip("_").lower()
 
 
 def extract_wav(mp4: Path) -> Path:
@@ -54,16 +72,36 @@ def extract_wav(mp4: Path) -> Path:
 
 
 def main():
-    print(f"Source: {SRC_MP4}")
+    parser = argparse.ArgumentParser(description="Run WhisperX forced-alignment on a raw MP4.")
+    parser.add_argument("--file", default=str(DEFAULT_SRC_MP4),
+                        help="Path to input MP4 (default: C4109 test clip)")
+    parser.add_argument("--model", default=DEFAULT_MODEL,
+                        choices=["tiny", "base", "small", "medium", "large-v2"],
+                        help=f"WhisperX model size (default: {DEFAULT_MODEL})")
+    args = parser.parse_args()
+
+    src_mp4 = Path(args.file).expanduser().resolve()
+    if not src_mp4.exists():
+        raise SystemExit(f"File not found: {src_mp4}")
+
+    tag = _slugify(src_mp4.stem)
+    out_json = RLHF_DIR / f"{tag}_words_whisperx.json"
+    out_txt = RLHF_DIR / f"{tag}_whisperx_raw.txt"
+    RLHF_DIR.mkdir(parents=True, exist_ok=True)
+
+    print(f"Source: {src_mp4}")
+    print(f"Tag:    {tag}")
+    print(f"Output: {out_json}")
+    print(f"Model:  {args.model}")
     t0 = time.time()
 
     print("\n[1/4] Extracting 16kHz mono WAV...")
-    wav = extract_wav(SRC_MP4)
+    wav = extract_wav(src_mp4)
     print(f"  → {wav}  ({wav.stat().st_size / 1024 / 1024:.1f} MB)")
 
-    print(f"\n[2/4] Loading Whisper model ({MODEL_SIZE}, {DEVICE}, {COMPUTE_TYPE})...")
+    print(f"\n[2/4] Loading Whisper model ({args.model}, {DEVICE}, {COMPUTE_TYPE})...")
     t = time.time()
-    model = whisperx.load_model(MODEL_SIZE, device=DEVICE, compute_type=COMPUTE_TYPE,
+    model = whisperx.load_model(args.model, device=DEVICE, compute_type=COMPUTE_TYPE,
                                 language="en")
     print(f"  loaded in {time.time()-t:.1f}s")
 
@@ -94,15 +132,16 @@ def main():
             "end": float(w["end"]),
         })
 
-    OUT_JSON.write_text(json.dumps(words, indent=2))
-    print(f"\n✓ Wrote {len(words)} aligned words → {OUT_JSON}")
+    out_json.write_text(json.dumps(words, indent=2))
+    print(f"\nWrote {len(words)} aligned words → {out_json}")
 
     # Readable dump
     lines = []
     bar = "=" * 80
     lines.append(bar)
-    lines.append("WHISPERX FORCED-ALIGNED WORD TRANSCRIPT — C4109")
-    lines.append(f"Model: {MODEL_SIZE} | Device: {DEVICE} | Compute: {COMPUTE_TYPE}")
+    lines.append(f"WHISPERX FORCED-ALIGNED WORD TRANSCRIPT — {tag.upper()}")
+    lines.append(f"Source: {src_mp4.name}")
+    lines.append(f"Model: {args.model} | Device: {DEVICE} | Compute: {COMPUTE_TYPE}")
     lines.append(f"Total words: {len(words)}")
     lines.append("Format: W#### [start - end] (dur) word")
     lines.append(bar)
@@ -122,10 +161,9 @@ def main():
         lines.append(f"W{i:04d} [{w['start']:7.3f} - {w['end']:7.3f}] ({dur:5.2f}s) {w['word']}{flag}")
         prev_end = w["end"]
 
-    OUT_TXT.write_text("\n".join(lines) + "\n")
-    print(f"✓ Wrote readable dump → {OUT_TXT}")
+    out_txt.write_text("\n".join(lines) + "\n")
+    print(f"Wrote readable dump → {out_txt}")
     print(f"\nWords with duration > 1.5s: {long_count}")
-    print(f"  (Whisper API cache had 20)")
     print(f"\nTotal pipeline time: {time.time()-t0:.1f}s")
 
 

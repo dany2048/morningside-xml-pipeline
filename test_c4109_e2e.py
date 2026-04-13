@@ -1,20 +1,27 @@
 #!/usr/bin/env python3
-"""End-to-end test on C4109 with the full fix stack:
+"""End-to-end pipeline test (now generalized — works on any raw MP4):
 
-    WhisperX forced-aligned words  (outputs/rlhf/c4109_words_whisperx.json)
+    WhisperX forced-aligned words  (cached at outputs/rlhf/<tag>_words_whisperx.json)
       -> processor_v2.process_lines(word_level=True) via GPT-5.4
-      -> clean FCP7 XML with source-timecode element (fixes the 03:35:01:00 bug)
+         (or --keeps-file for manual / Claude picks)
+      -> clean FCP7 XML with source-timecode element on <file>
+         (fixes the XAVC start-TC bug)
       -> matching RLHF review txt
 
-Outputs:
-    outputs/rlhf/c4109_v4_cut.xml
-    outputs/rlhf/c4109_v4_review.txt
+Usage:
+    python test_c4109_e2e.py                                            # defaults to C4109
+    python test_c4109_e2e.py --file path/to/raw.MP4                     # any clip
+    python test_c4109_e2e.py --file ... --keeps-file keeps.json --tag v5-claude
+
+Frame rate, source timecode, resolution, audio channels are all probed
+from the source file, so 23.976 / 29.97 / 25 / 30 all work transparently.
 """
 from __future__ import annotations
 
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -34,20 +41,42 @@ from config import SEGMENT_PADDING_SECONDS
 from processor_v2 import _build_numbered_lines, _lines_to_segments, process_lines
 
 WORKSPACE = Path("/Users/dany/Documents/Claude Workspaces/personal-workspace")
-WORDS_JSON = WORKSPACE / "outputs/rlhf/c4109_words_whisperx.json"
-SOURCE_MP4 = WORKSPACE / "reference/Raw Files Tests/20260203_C4109 (shorter clip) .MP4"
+RLHF_DIR = WORKSPACE / "outputs/rlhf"
+DEFAULT_SOURCE_MP4 = WORKSPACE / "reference/Raw Files Tests/20260203_C4109 (shorter clip) .MP4"
 
-FPS_NUM = 24000
-FPS_DEN = 1001
-TIMEBASE = 24
-NTSC = True
+
+def _slugify(stem: str) -> str:
+    """Make a filesystem-friendly tag from a file stem.
+    'C4109 (shorter clip) ' -> 'c4109'; '20260208_C4340' -> 'c4340'.
+    """
+    m = re.search(r"[Cc]\d{3,5}", stem)
+    if m:
+        return m.group(0).lower()
+    return re.sub(r"[^a-zA-Z0-9_]+", "_", stem).strip("_").lower()
+
+
+# Frame-rate state populated by probe(). NOT module constants — they
+# get rewritten per source file because different cameras shoot at
+# different rates (C4109 is 23.976, C4340 is 29.97, etc).
+_FPS_NUM = 24000
+_FPS_DEN = 1001
+_TIMEBASE = 24
+_NTSC = True
 
 
 def seconds_to_frames(s: float) -> int:
-    return round(s * FPS_NUM / FPS_DEN)
+    return round(s * _FPS_NUM / _FPS_DEN)
 
 
 def probe(path: Path) -> dict:
+    """Run ffprobe and return the metadata dict + populate frame-rate state.
+
+    Recognized rates: 23.976 (24000/1001), 24 (24/1), 25 (25/1),
+    29.97 (30000/1001), 30 (30/1), 50, 59.94, 60. NTSC variants get
+    timebase=ceil(rate) + ntsc=TRUE.
+    """
+    global _FPS_NUM, _FPS_DEN, _TIMEBASE, _NTSC
+
     out = subprocess.run(
         ["ffprobe", "-v", "quiet", "-print_format", "json",
          "-show_streams", "-show_format", str(path)],
@@ -56,12 +85,37 @@ def probe(path: Path) -> dict:
     data = json.loads(out.stdout)
     v = next(s for s in data["streams"] if s["codec_type"] == "video")
     a = next((s for s in data["streams"] if s["codec_type"] == "audio"), None)
+
+    # Frame rate
+    fps_num, fps_den = (int(x) for x in v["r_frame_rate"].split("/"))
+    fps = fps_num / fps_den
+    # Map to FCP7 timebase + ntsc flag
+    rate_map = {
+        (24000, 1001): (24, True),    # 23.976
+        (24, 1):       (24, False),   # 24
+        (25, 1):       (25, False),   # 25
+        (30000, 1001): (30, True),    # 29.97
+        (30, 1):       (30, False),   # 30
+        (50, 1):       (50, False),   # 50
+        (60000, 1001): (60, True),    # 59.94
+        (60, 1):       (60, False),   # 60
+    }
+    if (fps_num, fps_den) in rate_map:
+        _TIMEBASE, _NTSC = rate_map[(fps_num, fps_den)]
+        _FPS_NUM, _FPS_DEN = fps_num, fps_den
+    else:
+        # Fallback: use ffprobe's reported rate raw, ntsc off
+        _FPS_NUM, _FPS_DEN = fps_num, fps_den
+        _TIMEBASE = round(fps)
+        _NTSC = False
+
     start_tc = "00:00:00:00"
     for s in data.get("streams", []):
         tc = s.get("tags", {}).get("timecode")
         if tc and ":" in tc:
             start_tc = tc[:11]
             break
+
     return {
         "duration": float(data["format"]["duration"]),
         "width": int(v["width"]),
@@ -69,6 +123,11 @@ def probe(path: Path) -> dict:
         "sample_rate": int(a["sample_rate"]) if a else 48000,
         "audio_channels": int(a.get("channels", 2)) if a else 2,
         "start_tc": start_tc,
+        "fps": fps,
+        "fps_num": fps_num,
+        "fps_den": fps_den,
+        "timebase": _TIMEBASE,
+        "ntsc": _NTSC,
     }
 
 
@@ -81,8 +140,8 @@ def tc_to_frames(tc: str, timebase: int) -> int:
 
 def _rate(parent):
     r = ET.SubElement(parent, "rate")
-    ET.SubElement(r, "timebase").text = str(TIMEBASE)
-    ET.SubElement(r, "ntsc").text = "TRUE" if NTSC else "FALSE"
+    ET.SubElement(r, "timebase").text = str(_TIMEBASE)
+    ET.SubElement(r, "ntsc").text = "TRUE" if _NTSC else "FALSE"
 
 
 def _file_element(parent, define: bool, meta: dict, total_frames: int,
@@ -98,7 +157,7 @@ def _file_element(parent, define: bool, meta: dict, total_frames: int,
     tc_el = ET.SubElement(f, "timecode")
     _rate(tc_el)
     ET.SubElement(tc_el, "string").text = start_tc
-    ET.SubElement(tc_el, "frame").text = str(tc_to_frames(start_tc, TIMEBASE))
+    ET.SubElement(tc_el, "frame").text = str(tc_to_frames(start_tc, _TIMEBASE))
     ET.SubElement(tc_el, "displayformat").text = "NDF"
     ET.SubElement(tc_el, "source").text = "source"
 
@@ -215,8 +274,9 @@ def write_review(words: list[dict], lines: list[dict], keep_ids: set[int],
     out.append("RLHF REVIEW V4 — C4109 — WhisperX forced-aligned + GPT-5.4 picks + v3 XML")
     out.append(bar)
     out.append("")
-    out.append(f"Source: {SOURCE_MP4.name}")
-    out.append(f"Source start TC: {meta['start_tc']} (frame {tc_to_frames(meta['start_tc'], TIMEBASE)} at tb {TIMEBASE})")
+    out.append(f"Source: {meta.get('source_filename', '<unknown>')}")
+    out.append(f"Source start TC: {meta['start_tc']} (frame {tc_to_frames(meta['start_tc'], _TIMEBASE)} at tb {_TIMEBASE})")
+    out.append(f"FPS: {meta['fps']:.3f} ({meta['fps_num']}/{meta['fps_den']}, ntsc={meta['ntsc']})")
     out.append(f"Duration: {meta['duration']:.2f}s")
     out.append(f"Words (WhisperX): {len(words)}")
     out.append(f"Lines: {len(lines)}  |  Kept: {len(keep_ids)}")
@@ -280,31 +340,57 @@ def segments_from_keeps(lines: list[dict], keep_ids: list[int], total_duration: 
 
 
 def main():
-    parser = argparse.ArgumentParser(description="C4109 end-to-end test (WhisperX + LLM picks + FCP7 XML)")
+    parser = argparse.ArgumentParser(description="End-to-end test: WhisperX cache + LLM picks + FCP7 XML")
+    parser.add_argument(
+        "--file",
+        default=str(DEFAULT_SOURCE_MP4),
+        help="Path to source MP4 (default: C4109 test clip)",
+    )
+    parser.add_argument(
+        "--words-json",
+        help="Path to WhisperX words JSON. Defaults to outputs/rlhf/<tag>_words_whisperx.json",
+    )
     parser.add_argument(
         "--keeps-file",
         help="Path to JSON file containing a flat array of line IDs to keep. "
-             "If set, skips the GPT-5.4 LLM call and uses these picks directly. "
-             "Useful for comparing Claude Code picks vs GPT-5.4 on the same transcript.",
+             "If set, skips the GPT-5.4 LLM call and uses these picks directly.",
     )
     parser.add_argument(
         "--tag",
         default="v4",
-        help="Output tag (default 'v4' for GPT-5.4 run; use e.g. 'v5-claude' for manual keeps).",
+        help="Output tag (default 'v4' for GPT-5.4 run; e.g. 'v5-claude' for manual keeps).",
     )
     args = parser.parse_args()
 
-    out_xml = WORKSPACE / f"outputs/rlhf/c4109_{args.tag}_cut.xml"
-    out_review = WORKSPACE / f"outputs/rlhf/c4109_{args.tag}_review.txt"
+    source_mp4 = Path(args.file).expanduser().resolve()
+    if not source_mp4.exists():
+        raise SystemExit(f"File not found: {source_mp4}")
+    clip_tag = _slugify(source_mp4.stem)
+
+    words_json = Path(args.words_json).resolve() if args.words_json else (
+        RLHF_DIR / f"{clip_tag}_words_whisperx.json"
+    )
+    if not words_json.exists():
+        raise SystemExit(
+            f"WhisperX words file not found: {words_json}\n"
+            f"Run: python run_whisperx_c4109.py --file '{source_mp4}'"
+        )
+
+    out_xml = RLHF_DIR / f"{clip_tag}_{args.tag}_cut.xml"
+    out_review = RLHF_DIR / f"{clip_tag}_{args.tag}_review.txt"
 
     t0 = time.time()
 
-    print(f"Source: {SOURCE_MP4}")
-    meta = probe(SOURCE_MP4)
-    print(f"  duration: {meta['duration']:.2f}s  |  {meta['width']}x{meta['height']}  |  start TC: {meta['start_tc']}")
+    print(f"Source: {source_mp4}")
+    print(f"Clip tag: {clip_tag}")
+    meta = probe(source_mp4)
+    print(f"  duration: {meta['duration']:.2f}s  |  {meta['width']}x{meta['height']}  |  "
+          f"fps: {meta['fps']:.3f}  |  start TC: {meta['start_tc']}  |  "
+          f"timebase: {meta['timebase']} ntsc={meta['ntsc']}")
 
-    words = json.loads(WORDS_JSON.read_text())
-    print(f"WhisperX words: {len(words)}")
+    words = json.loads(words_json.read_text())
+    print(f"WhisperX words: {len(words)} (from {words_json.name})")
+    meta["source_filename"] = source_mp4.name
 
     print("\n[1] Building word-level numbered lines...")
     lines = _build_numbered_lines(words, word_level=True)
@@ -342,7 +428,7 @@ def main():
                 break
 
     print(f"\n[3] Generating XML ({len(segments)} segments)...")
-    build_xml(segments, meta, SOURCE_MP4.name, str(SOURCE_MP4), out_xml)
+    build_xml(segments, meta, source_mp4.name, str(source_mp4), out_xml)
     print(f"  → {out_xml}")
 
     print(f"\n[4] Writing RLHF review...")
