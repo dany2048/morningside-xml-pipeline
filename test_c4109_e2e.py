@@ -12,6 +12,7 @@ Outputs:
 """
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import subprocess
@@ -29,13 +30,12 @@ from dotenv import load_dotenv
 load_dotenv(_HERE / ".env")
 load_dotenv(_HERE.parent.parent / ".env")
 
+from config import SEGMENT_PADDING_SECONDS
 from processor_v2 import _build_numbered_lines, _lines_to_segments, process_lines
 
 WORKSPACE = Path("/Users/dany/Documents/Claude Workspaces/personal-workspace")
 WORDS_JSON = WORKSPACE / "outputs/rlhf/c4109_words_whisperx.json"
 SOURCE_MP4 = WORKSPACE / "reference/Raw Files Tests/20260203_C4109 (shorter clip) .MP4"
-OUT_XML = WORKSPACE / "outputs/rlhf/c4109_v4_cut.xml"
-OUT_REVIEW = WORKSPACE / "outputs/rlhf/c4109_v4_review.txt"
 
 FPS_NUM = 24000
 FPS_DEN = 1001
@@ -119,7 +119,7 @@ def _file_element(parent, define: bool, meta: dict, total_frames: int,
     return f
 
 
-def build_xml(segments: list[dict], meta: dict, filename: str, filepath: str) -> None:
+def build_xml(segments: list[dict], meta: dict, filename: str, filepath: str, out_path: Path) -> None:
     total_frames = seconds_to_frames(meta["duration"])
     start_tc = meta["start_tc"]
     audio_channels = meta["audio_channels"]
@@ -200,7 +200,7 @@ def build_xml(segments: list[dict], meta: dict, filename: str, filepath: str) ->
     rough = ET.tostring(xmeml, encoding="unicode")
     pretty = minidom.parseString(rough).toprettyxml(indent="  ")
     body = "\n".join(pretty.split("\n")[1:])
-    OUT_XML.write_text(
+    out_path.write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE xmeml>\n' + body
     )
 
@@ -208,7 +208,7 @@ def build_xml(segments: list[dict], meta: dict, filename: str, filepath: str) ->
 # ---------- Review ----------
 
 def write_review(words: list[dict], lines: list[dict], keep_ids: set[int],
-                 segments: list[dict], meta: dict) -> None:
+                 segments: list[dict], meta: dict, out_path: Path) -> None:
     out = []
     bar = "=" * 90
     out.append(bar)
@@ -260,12 +260,43 @@ def write_review(words: list[dict], lines: list[dict], keep_ids: set[int],
         decision = "KEEP" if line_id in keep_ids else "CUT "
         out.append(f"W{i+1:04d} [{w['start']:7.2f}-{w['end']:7.2f}] {decision} {w['word']}")
         prev_end = w["end"]
-    OUT_REVIEW.write_text("\n".join(out) + "\n")
+    out_path.write_text("\n".join(out) + "\n")
 
 
 # ---------- Main ----------
 
+def segments_from_keeps(lines: list[dict], keep_ids: list[int], total_duration: float) -> list[dict]:
+    """Same logic as processor_v2.process_lines() after the LLM call — convert
+    a keep_ids list into padded segments."""
+    raw = _lines_to_segments(lines, keep_ids)
+    segments = []
+    for seg in raw:
+        segments.append({
+            "start": max(0, seg["start"] - SEGMENT_PADDING_SECONDS),
+            "end":   min(total_duration, seg["end"] + SEGMENT_PADDING_SECONDS),
+            "label": f"seg_{len(segments) + 1}",
+        })
+    return segments
+
+
 def main():
+    parser = argparse.ArgumentParser(description="C4109 end-to-end test (WhisperX + LLM picks + FCP7 XML)")
+    parser.add_argument(
+        "--keeps-file",
+        help="Path to JSON file containing a flat array of line IDs to keep. "
+             "If set, skips the GPT-5.4 LLM call and uses these picks directly. "
+             "Useful for comparing Claude Code picks vs GPT-5.4 on the same transcript.",
+    )
+    parser.add_argument(
+        "--tag",
+        default="v4",
+        help="Output tag (default 'v4' for GPT-5.4 run; use e.g. 'v5-claude' for manual keeps).",
+    )
+    args = parser.parse_args()
+
+    out_xml = WORKSPACE / f"outputs/rlhf/c4109_{args.tag}_cut.xml"
+    out_review = WORKSPACE / f"outputs/rlhf/c4109_{args.tag}_review.txt"
+
     t0 = time.time()
 
     print(f"Source: {SOURCE_MP4}")
@@ -275,39 +306,48 @@ def main():
     words = json.loads(WORDS_JSON.read_text())
     print(f"WhisperX words: {len(words)}")
 
-    # Normalize shape for processor_v2 — it expects {word, start, end}.
-    # WhisperX outputs exactly this shape already.
-
     print("\n[1] Building word-level numbered lines...")
     lines = _build_numbered_lines(words, word_level=True)
     print(f"  {len(lines)} numbered lines (one per word, capped at start+1.0s)")
 
-    print("\n[2] GPT-5.4 keep/cut pass...")
-    segments = process_lines(lines, meta["duration"])
+    if args.keeps_file:
+        print(f"\n[2] Loading keep IDs from {args.keeps_file}...")
+        keeps_path = Path(args.keeps_file)
+        if not keeps_path.is_absolute():
+            keeps_path = WORKSPACE / keeps_path
+        keep_ids = json.loads(keeps_path.read_text())
+        valid_line_ids = {l["id"] for l in lines}
+        keep_ids = [k for k in keep_ids if k in valid_line_ids]
+        kept_dur = sum(l["end"] - l["start"] for l in lines if l["id"] in set(keep_ids))
+        print(f"  Keeping {len(keep_ids)}/{len(lines)} lines ({kept_dur:.0f}s, "
+              f"{kept_dur/meta['duration']*100:.0f}%) — manual picks (no LLM call)")
+        segments = segments_from_keeps(lines, keep_ids, meta["duration"])
+        print(f"  → {len(segments)} segments after adjacency merging")
+    else:
+        print("\n[2] GPT-5.4 keep/cut pass...")
+        segments = process_lines(lines, meta["duration"])
 
     if not segments:
         print("ERROR: no segments produced")
         sys.exit(1)
 
-    # Extract the keep_ids that process_lines used (reconstruct for review).
-    # process_lines internally calls _lines_to_segments; we need to pull the
-    # kept line ids out. Simplest: re-derive by checking which lines fall
-    # inside any segment.
-    keep_ids = set()
+    # Reconstruct kept line IDs for the review output (whether from keeps-file
+    # or from GPT-5.4 segments)
+    keep_ids_set = set()
     for line in lines:
         mid = (line["start"] + line["end"]) / 2
         for seg in segments:
             if seg["start"] <= mid <= seg["end"]:
-                keep_ids.add(line["id"])
+                keep_ids_set.add(line["id"])
                 break
 
     print(f"\n[3] Generating XML ({len(segments)} segments)...")
-    build_xml(segments, meta, SOURCE_MP4.name, str(SOURCE_MP4))
-    print(f"  → {OUT_XML}")
+    build_xml(segments, meta, SOURCE_MP4.name, str(SOURCE_MP4), out_xml)
+    print(f"  → {out_xml}")
 
     print(f"\n[4] Writing RLHF review...")
-    write_review(words, lines, keep_ids, segments, meta)
-    print(f"  → {OUT_REVIEW}")
+    write_review(words, lines, keep_ids_set, segments, meta, out_review)
+    print(f"  → {out_review}")
 
     total_kept = sum(s["end"] - s["start"] for s in segments)
     print(f"\nDone in {time.time()-t0:.1f}s")
