@@ -263,6 +263,51 @@ When the pipeline produces wrong output, check layers in this order:
 
 Prior sessions inverted this: started at layer 4 and never audited layers 1-2. Every rebuild was treating symptoms.
 
+## 14. Scaling test: C4340 (27.6 min) and the GPT-5.4 collapse
+
+After C4109 worked, the next question was whether the pipeline scaled to longer clips. I ran it on **C4340**, a 27.6-minute Sony FX3 clip of a monologue about the AI/iPhone moment. Two things went wrong that were instructive.
+
+### Variable frame rate and source TC
+
+C4340 was shot at **29.97fps** (30000/1001, NTSC), not 23.976 like C4109. The XML generator had been written against hardcoded `TIMEBASE = 24` constants. It needed to be parameterized to probe the source file's actual frame rate and emit the right timebase. The fix was a 30-line diff that added a rate-map dict (23.976 → timebase 24, 29.97 → timebase 30, etc) and threaded it through `seconds_to_frames`, `_rate`, and `tc_to_frames`. One script now handles any standard broadcast frame rate.
+
+C4340's source TC was `05:26:43:24` (a different value from C4109's `03:35:01:00`, but the same XAVC pattern). The source-TC fix I'd already built handled it transparently, which validated that the fix was generalizable and not a C4109 special case.
+
+### WhisperX scales sublinearly
+
+C4109 (5.4 min) took 65 seconds to transcribe + align. C4340 (27.6 min) took 174 seconds. 5x audio → 2.7x time. I expected linear scaling; what happened is the model load time is a fixed overhead amortized across the whole clip. For a 60-minute clip you'd expect something like 5-6 minutes total WhisperX time on M-series CPU, which is fine.
+
+The forced alignment output was high-quality: 3995 words, 11 long-duration outliers (all real end-of-sentence padding from sentences ending in periods/commas, not the Whisper API silence-bleed bug). The transcription layer scales cleanly.
+
+### GPT-5.4 catastrophically failed on C4340
+
+Feeding the WhisperX transcript to the same GPT-5.4 single-pass processor that worked fine on C4109, I got back **88 line IDs out of 3995 (2.2% kept)**. Reviewing what it picked revealed the failure mode immediately: 85 of the 88 picks were **isolated single words**, scattered across the whole transcript with 30-100-word gaps between picks, and every one of them was the *trailing word* of its section. Words like `"taps."`, `"creations,"`, `"learns."`, `"blueprint,"`, `"And"`, `"So"`.
+
+Not a "more aggressive cut." Literal garbage output.
+
+The usage stats explained it: the model consumed **8609 of its 8924 output tokens on internal reasoning**, leaving only ~315 tokens for the actual JSON array. With only 315 output tokens to work with, it could only emit ~87 line IDs. So it tried to apply the "keep only the last attempt of each section" structural rule and degraded to picking the trailing word of each section as a shortcut.
+
+This was the same failure pattern the project memory already documented from the prior 3-pass experiment: *"GPT-5.4 3-pass, reasoning tokens cause cascading over-cuts (4% kept, $0.61)."* Single-pass with `medium` reasoning has the same disease, just delayed — it only manifests once the input transcript is long enough that the structural rules compound recursively.
+
+GPT-5.4 is a smart base model, but its inference structure is wrong for this task at scale. The reasoning mode is designed for math problems and code generation, where longer deliberation produces better outputs. On a semantic classification task over 4000 items, longer deliberation just compresses the output budget until the model can't finish the task.
+
+### Claude Opus 4.6 scaled cleanly
+
+The alternative was to use Claude (the session I was running) as the keep/cut layer directly. I added a `--keeps-file` flag to `test_c4109_e2e.py` so it could skip the LLM call and read a pre-computed keeps JSON file, then read the full 3995-line transcript in context, applied the same structural rules, and emitted 3254 line IDs across 78 take-group sections.
+
+Running the pipeline with those keeps produced a 13.3-minute cut with a 48.2% keep ratio, 361 segments, frame-accurate in Premiere on first import. The take structure held: Steve Jobs intro → AI iPhone parallel → OpenClaw explanation → Liam's reality check → AI agency model → CTA → outro. My own minor errors were at sentence-level micro-cleanups inside otherwise-correct takes, which is exactly what a human editor refines in the next pass.
+
+### Why Claude doesn't have the same failure mode
+
+Claude Opus 4.6 (running in the Claude Code session, via 1M-token context) doesn't run reasoning-token cascades on this task. Plain "read everything, apply the rules across actual sections, emit the keep list" pattern. There's no internal compression step that can recursively compound, and the context window absorbs the whole transcript regardless of length. The architecture difference matters more than the underlying model IQ.
+
+### Decision rule
+
+- **Clip ≤10 minutes**: GPT-5.4 is fine. Fully automated, ~$0.10 per run. Use it.
+- **Clip >10 minutes**: Claude Opus 4.6 via the Claude Code paste loop using `--keeps-file`. Zero cost, requires ~5 minutes of human time per clip for the LLM step. Scales to any length.
+
+Future work: add `processor_claude.py` wrapping the Anthropic SDK so the long-clip path is fully automated too. Would need `ANTHROPIC_API_KEY` in `.env` and cost about $0.50 per 30-minute clip at Opus pricing. Not a priority until the manual paste step becomes annoying at volume.
+
 ## Credits
 
-Diagnostic session with Claude Code (Opus 4.6, 1M context) on April 13-14 2026. Claude ran ffprobe, dumped raw Whisper output, cross-checked API calls, researched FCP7 xmeml timecode semantics and Premiere's built-in transcription internals, installed WhisperX, wrote the end-to-end test. I drove the session, asked the skeptical questions, and verified each fix in Premiere. Total session time: about 3 hours across two days.
+Diagnostic session with Claude Code (Opus 4.6, 1M context) on April 13-14 2026. Claude ran ffprobe, dumped raw Whisper output, cross-checked API calls, researched FCP7 xmeml timecode semantics and Premiere's built-in transcription internals, installed WhisperX, wrote the end-to-end test, then scaled the pipeline to C4340 and acted as the keep/cut picker when GPT-5.4 collapsed. I drove the session, asked the skeptical questions, and verified each fix in Premiere. Total session time: about 5 hours across two days.
