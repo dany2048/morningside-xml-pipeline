@@ -16,3 +16,5 @@ chunks/
 __pycache__/
 *.pyc
 .venv/
+.whisperx_venv/
+*_venv/

@@ -24,11 +24,37 @@ def _get_client():
     return OpenAI(api_key=api_key)
 
 
-def _build_numbered_lines(words: list[dict]) -> list[dict]:
+def _build_numbered_lines(words: list[dict], fine: bool = False, word_level: bool = False) -> list[dict]:
     """Break words into numbered lines. Each line has an ID, start, end, and text.
 
-    Lines break on pauses > 0.3s or every ~15 words.
+    Default mode: break on pauses > 0.3s or every ~15 words.
+    Fine mode (fine=True): break on pauses > 0.12s or every ~5 words.
+    Word-level mode (word_level=True): one word per line with exact timestamps.
+      Maximum precision for false start detection — every word is a cut point.
     """
+    if word_level:
+        # Whisper bug: end timestamps sometimes include seconds of silence after
+        # the word (e.g., "to" showing as 15s long). Fix: cap each word's end
+        # at min(original_end, next_word_start, start + 1.0s).
+        # This exposes real gaps so they get cut instead of baked into segments.
+        MAX_WORD_DUR = 1.0
+        result = []
+        for i, w in enumerate(words):
+            start = w["start"]
+            capped_end = min(w["end"], start + MAX_WORD_DUR)
+            if i + 1 < len(words):
+                capped_end = min(capped_end, words[i + 1]["start"])
+            result.append({
+                "id": i + 1,
+                "start": start,
+                "end": capped_end,
+                "text": w["word"],
+            })
+        return result
+
+    pause_threshold = 0.12 if fine else 0.3
+    max_words = 5 if fine else 15
+
     lines = []
     current_words = []
     current_start = None
@@ -49,7 +75,7 @@ def _build_numbered_lines(words: list[dict]) -> list[dict]:
             current_start = w["start"]
 
         gap = w["start"] - last_end if last_end > 0 else 0
-        if gap > 0.3 and current_words:
+        if gap > pause_threshold and current_words:
             flush()
             current_words = []
             current_start = w["start"]
@@ -57,7 +83,7 @@ def _build_numbered_lines(words: list[dict]) -> list[dict]:
         current_words.append(w)
         last_end = w["end"]
 
-        if len(current_words) >= 15:
+        if len(current_words) >= max_words:
             flush()
             current_words = []
             current_start = None

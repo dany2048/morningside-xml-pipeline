@@ -175,15 +175,12 @@ def generate_fcpxml(
     ntsc = _is_ntsc(matched_fps)
     total_frames = _seconds_to_frames(total_duration, matched_fps)
 
-    # Root
+    # Root — single sequence directly under xmeml.
+    # Premiere only reliably reads the first <sequence> child.
+    # The nest is omitted; editor can create it manually if needed.
     xmeml = ET.Element("xmeml", version="5")
 
-    # --- Source Nest (full clip + empty ext mic track) ---
-    _build_source_nest(xmeml, source_filename, source_path,
-                       timebase, ntsc, total_frames, width, height,
-                       sample_rate, audio_channels)
-
-    # --- Cut Sequence (references the nest) ---
+    # --- Cut Sequence (references source file directly) ---
     sequence = ET.SubElement(xmeml, "sequence")
     ET.SubElement(sequence, "name").text = f"{source_filename} - Clean Cut"
     ET.SubElement(sequence, "duration").text = str(
@@ -246,10 +243,14 @@ def generate_fcpxml(
         ET.SubElement(v_clip, "start").text = str(cumulative_frame)
         ET.SubElement(v_clip, "end").text = str(cumulative_frame + seg_duration_frames)
 
-        # Reference the source nest sequence
-        ET.SubElement(v_clip, "sequence", id="source-nest")
+        # Reference the source file directly (not the nest — Premiere
+        # needs a <file> reference to resolve clip media properly)
+        _build_file_element(v_clip, source_filename, source_path,
+                            timebase, ntsc, total_frames, width, height,
+                            sample_rate, audio_channels,
+                            file_id="file-1", define=(i == 0))
 
-        # --- Audio clipitems referencing the nest ---
+        # --- Audio clipitems referencing the source file ---
         for ch, a_track in enumerate(a_tracks):
             a_clip = ET.SubElement(a_track, "clipitem", id=f"{clip_id}-audio-{ch+1}")
             ET.SubElement(a_clip, "name").text = seg["label"]
@@ -259,7 +260,10 @@ def generate_fcpxml(
             ET.SubElement(a_clip, "out").text = str(seg_end_frame)
             ET.SubElement(a_clip, "start").text = str(cumulative_frame)
             ET.SubElement(a_clip, "end").text = str(cumulative_frame + seg_duration_frames)
-            ET.SubElement(a_clip, "sequence", id="source-nest")
+            _build_file_element(a_clip, source_filename, source_path,
+                                timebase, ntsc, total_frames, width, height,
+                                sample_rate, audio_channels,
+                                file_id="file-1", define=False)
 
             sourcetrack = ET.SubElement(a_clip, "sourcetrack")
             ET.SubElement(sourcetrack, "mediatype").text = "audio"
