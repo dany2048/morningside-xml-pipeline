@@ -4,6 +4,37 @@ Automated rough-cut generator for long-form talking-head footage. You point it a
 
 A 5-minute raw clip goes through the whole pipeline in about 60 seconds and costs about $0.09 (via GPT-5.4). A 30-minute clip takes about 4 minutes of pipeline time plus about 5 minutes of your time for the Claude Code keep/cut step, at zero marginal cost. Nothing on my Mac needs a GPU.
 
+## Quickstart for editors (via Claude Code)
+
+If you're an editor and you just want the XML, skip everything below and do this:
+
+1. **Install Claude Code once.** Download from https://claude.com/claude-code, sign in, done.
+2. **Open Claude Code in any folder** (Terminal: `cd ~/Desktop && claude`).
+3. **Paste this prompt** and replace the raw file path with your own:
+
+   ```
+   Clone https://github.com/dany2048/morningside-xml-pipeline into ~/morningside-pipeline
+   if it's not already there. If the .whisperx_venv virtualenv doesn't exist, set it up
+   by following the Setup section of the README (brew install ffmpeg, create venv, pip
+   install whisperx openai python-dotenv). Ask me for the OPENAI_API_KEY once and put it
+   in .env if the file doesn't exist yet.
+
+   Then run the pipeline on this raw file:
+   /Users/me/Desktop/20260415_C4412.MP4
+
+   Steps:
+   1. source .whisperx_venv/bin/activate && python run_whisperx_c4109.py --file "<raw path>"
+   2. deactivate
+   3. python3 test_c4109_e2e.py --file "<raw path>" --tag editor-run
+   4. Tell me the full path of the output XML file when done.
+   ```
+
+4. **Drop the XML into Premiere.** File → Import → pick the XML Claude gave you. You'll see a Clean Cut sequence + a NEST sequence in the project panel.
+
+First run installs the dependencies (~5 min, one-time). After that each clip takes 1–2 minutes. If anything breaks, paste the error back into the same Claude Code session and it'll fix it in place.
+
+**Ask Ops for the shared OpenAI API key.** You only enter it once; Claude writes it to `.env` and reuses it forever.
+
 ## What it actually does
 
 ```
@@ -160,14 +191,14 @@ Zero API cost. Takes about 5 minutes of your time per clip for the paste-and-rev
 
 ### Importing into Premiere
 
-### Importing into Premiere
-
 1. File → Import → select the `.xml` file
 2. Premiere prompts you to locate the source MP4. Point it at the original.
-3. A new sequence called `<filename> - Clean Cut <tag>` appears in your project panel.
-4. Open it. The timeline has only the kept segments, in order, cut at frame-accurate word boundaries.
+3. Two sequences appear in your project panel:
+   - `NEST - <filename>` — the full source clip on one video + one audio track
+   - `<filename> - Clean Cut <tag>` — the cut timeline, which references the nest
+4. Open the Clean Cut. The timeline has only the kept segments, in order, cut at frame-accurate word boundaries.
 
-The XML references the source MP4 directly so Premiere will scrub/play it natively. No proxies, no rendering, no sync step. If you want to add external mic audio later, you can create a nested sequence manually in Premiere and drop the lav track in — the v3 "NEST + Clean Cut" dual-sequence structure was dropped after the source-TC fix made it unnecessary.
+The Clean Cut's clipitems reference the nest rather than the raw file directly, so if you want to drop in external lav/mic audio, open the NEST sequence, drop the mic track on a new audio layer inside the nest, and every cut in the Clean Cut automatically inherits the synced audio. No manual re-syncing of cuts against multiple audio sources.
 
 ## Current state
 

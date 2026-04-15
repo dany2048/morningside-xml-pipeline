@@ -178,6 +178,80 @@ def _file_element(parent, define: bool, meta: dict, total_frames: int,
     return f
 
 
+NEST_ID = "nest-1"
+
+
+def _build_nest(parent: ET.Element, meta: dict, total_frames: int,
+                filename: str, filepath: str, start_tc: str) -> ET.Element:
+    """Build the inline NEST sequence — full source + empty mic track.
+
+    The source <file> carries the source TC (preserving the C4109 fix);
+    the nest sequence itself starts at 00:00:00:00, so Clean Cut clipitems
+    can reference nest-frame offsets directly from seconds_to_frames().
+    """
+    audio_channels = meta["audio_channels"]
+    nest = ET.SubElement(parent, "sequence", id=NEST_ID)
+    ET.SubElement(nest, "name").text = f"NEST - {Path(filename).stem}"
+    ET.SubElement(nest, "duration").text = str(total_frames)
+    _rate(nest)
+
+    ntc = ET.SubElement(nest, "timecode")
+    _rate(ntc)
+    ET.SubElement(ntc, "string").text = "00:00:00:00"
+    ET.SubElement(ntc, "frame").text = "0"
+    ET.SubElement(ntc, "displayformat").text = "NDF"
+
+    n_media = ET.SubElement(nest, "media")
+
+    # Video — full source
+    n_video = ET.SubElement(n_media, "video")
+    n_vfmt = ET.SubElement(n_video, "format")
+    n_vsc = ET.SubElement(n_vfmt, "samplecharacteristics")
+    _rate(n_vsc)
+    ET.SubElement(n_vsc, "width").text = str(meta["width"])
+    ET.SubElement(n_vsc, "height").text = str(meta["height"])
+    ET.SubElement(n_vsc, "anamorphic").text = "FALSE"
+    ET.SubElement(n_vsc, "pixelaspectratio").text = "square"
+    ET.SubElement(n_vsc, "fielddominance").text = "none"
+
+    n_vtrack = ET.SubElement(n_video, "track")
+    nv_clip = ET.SubElement(n_vtrack, "clipitem", id="nest-v1")
+    ET.SubElement(nv_clip, "name").text = filename
+    ET.SubElement(nv_clip, "enabled").text = "TRUE"
+    ET.SubElement(nv_clip, "duration").text = str(total_frames)
+    _rate(nv_clip)
+    ET.SubElement(nv_clip, "start").text = "0"
+    ET.SubElement(nv_clip, "end").text = str(total_frames)
+    ET.SubElement(nv_clip, "in").text = "0"
+    ET.SubElement(nv_clip, "out").text = str(total_frames)
+    _file_element(nv_clip, True, meta, total_frames, filename, filepath, start_tc)
+
+    # Audio — camera channels (full clip) + empty external mic track
+    n_audio = ET.SubElement(n_media, "audio")
+    n_afmt = ET.SubElement(n_audio, "format")
+    n_asc = ET.SubElement(n_afmt, "samplecharacteristics")
+    ET.SubElement(n_asc, "depth").text = "16"
+    ET.SubElement(n_asc, "samplerate").text = str(meta["sample_rate"])
+
+    # Single audio track — source is effectively mono, ignore L/R split
+    n_atrack = ET.SubElement(n_audio, "track")
+    na_clip = ET.SubElement(n_atrack, "clipitem", id="nest-a1")
+    ET.SubElement(na_clip, "name").text = filename
+    ET.SubElement(na_clip, "enabled").text = "TRUE"
+    ET.SubElement(na_clip, "duration").text = str(total_frames)
+    _rate(na_clip)
+    ET.SubElement(na_clip, "start").text = "0"
+    ET.SubElement(na_clip, "end").text = str(total_frames)
+    ET.SubElement(na_clip, "in").text = "0"
+    ET.SubElement(na_clip, "out").text = str(total_frames)
+    _file_element(na_clip, False, meta, total_frames, filename, filepath, start_tc)
+    st = ET.SubElement(na_clip, "sourcetrack")
+    ET.SubElement(st, "mediatype").text = "audio"
+    ET.SubElement(st, "trackindex").text = "1"
+
+    return nest
+
+
 def build_xml(segments: list[dict], meta: dict, filename: str, filepath: str, out_path: Path) -> None:
     total_frames = seconds_to_frames(meta["duration"])
     start_tc = meta["start_tc"]
@@ -224,11 +298,13 @@ def build_xml(segments: list[dict], meta: dict, filename: str, filepath: str, ou
     asc = ET.SubElement(afmt, "samplecharacteristics")
     ET.SubElement(asc, "depth").text = "16"
     ET.SubElement(asc, "samplerate").text = str(meta["sample_rate"])
-    a_tracks = [ET.SubElement(audio, "track") for _ in range(audio_channels)]
+    # Single audio track in Clean Cut — mirrors the nest's single mono track
+    a_tracks = [ET.SubElement(audio, "track")]
+
+    nest_defined = False
 
     for i, (seg, (in_f, out_f, start_f, end_f)) in enumerate(zip(segments, frames)):
         clip_id = f"clipitem-{i+1}"
-        define_file = (i == 0)
 
         v_clip = ET.SubElement(v_track, "clipitem", id=clip_id)
         ET.SubElement(v_clip, "name").text = seg["label"]
@@ -239,7 +315,12 @@ def build_xml(segments: list[dict], meta: dict, filename: str, filepath: str, ou
         ET.SubElement(v_clip, "end").text = str(end_f)
         ET.SubElement(v_clip, "in").text = str(in_f)
         ET.SubElement(v_clip, "out").text = str(out_f)
-        _file_element(v_clip, define_file, meta, total_frames, filename, filepath, start_tc)
+
+        if not nest_defined:
+            _build_nest(v_clip, meta, total_frames, filename, filepath, start_tc)
+            nest_defined = True
+        else:
+            ET.SubElement(v_clip, "sequence", id=NEST_ID)
 
         for ch, atr in enumerate(a_tracks):
             a_clip = ET.SubElement(atr, "clipitem", id=f"{clip_id}-a{ch+1}")
@@ -251,7 +332,7 @@ def build_xml(segments: list[dict], meta: dict, filename: str, filepath: str, ou
             ET.SubElement(a_clip, "end").text = str(end_f)
             ET.SubElement(a_clip, "in").text = str(in_f)
             ET.SubElement(a_clip, "out").text = str(out_f)
-            _file_element(a_clip, False, meta, total_frames, filename, filepath, start_tc)
+            ET.SubElement(a_clip, "sequence", id=NEST_ID)
             st = ET.SubElement(a_clip, "sourcetrack")
             ET.SubElement(st, "mediatype").text = "audio"
             ET.SubElement(st, "trackindex").text = str(ch + 1)

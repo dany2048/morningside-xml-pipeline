@@ -1,4 +1,27 @@
-"""FCP 7 XML generation — Premiere Pro native import format."""
+"""FCP 7 XML generation — Premiere Pro native import format.
+
+Output structure:
+  <xmeml>
+    <sequence>                       # Clean Cut timeline
+      <media>
+        <video><track>
+          <clipitem>                 # first cut — defines the nest inline
+            <sequence id="nest-1">   # NEST — full source clip + empty mic track
+              ...
+            </sequence>
+          </clipitem>
+          <clipitem>                 # subsequent cuts — reference nest-1
+            <sequence id="nest-1"/>
+          </clipitem>
+        </track></video>
+        <audio>...same pattern...</audio>
+      </media>
+    </sequence>
+  </xmeml>
+
+Editor workflow: import → open "NEST - filename" → drop external mic audio →
+cuts in "Clean Cut" inherit it automatically.
+"""
 from __future__ import annotations
 
 import xml.etree.ElementTree as ET
@@ -6,18 +29,14 @@ from xml.dom import minidom
 
 from config import FPS_TO_FRAME_DURATION
 
+NEST_ID = "nest-1"
+SOURCE_FILE_ID = "file-1"
+
 
 def _match_fps(fps: float) -> tuple[float, int]:
-    """Match fps to nearest standard value. Returns (matched_fps, timebase)."""
     known = {
-        23.976: 24,
-        24.0: 24,
-        25.0: 25,
-        29.97: 30,
-        30.0: 30,
-        50.0: 50,
-        59.94: 60,
-        60.0: 60,
+        23.976: 24, 24.0: 24, 25.0: 25, 29.97: 30,
+        30.0: 30, 50.0: 50, 59.94: 60, 60.0: 60,
     }
     best_key = min(known.keys(), key=lambda k: abs(k - fps))
     return best_key, known[best_key]
@@ -31,21 +50,24 @@ def _seconds_to_frames(seconds: float, fps: float) -> int:
     return round(seconds * fps)
 
 
-def _add_rate_element(parent: ET.Element, timebase: int, ntsc: bool):
+def _add_rate(parent: ET.Element, timebase: int, ntsc: bool):
     rate = ET.SubElement(parent, "rate")
     ET.SubElement(rate, "timebase").text = str(timebase)
     ET.SubElement(rate, "ntsc").text = "TRUE" if ntsc else "FALSE"
 
 
-def _build_file_element(parent: ET.Element, source_filename: str, source_path: str | None,
-                        timebase: int, ntsc: bool, total_frames: int,
-                        width: int, height: int, sample_rate: int, audio_channels: int,
-                        file_id: str = "file-1", define: bool = True) -> ET.Element:
-    """Build a <file> element. If define=True, includes full metadata. Otherwise just a reference."""
-    f_el = ET.SubElement(parent, "file", id=file_id)
-    if not define:
-        return f_el
+def _add_timecode(parent: ET.Element, timebase: int, ntsc: bool):
+    tc = ET.SubElement(parent, "timecode")
+    _add_rate(tc, timebase, ntsc)
+    ET.SubElement(tc, "string").text = "00:00:00:00"
+    ET.SubElement(tc, "frame").text = "0"
+    ET.SubElement(tc, "displayformat").text = "NDF"
 
+
+def _define_source_file(parent: ET.Element, source_filename: str, source_path: str | None,
+                         timebase: int, ntsc: bool, total_frames: int,
+                         width: int, height: int, sample_rate: int, audio_channels: int) -> ET.Element:
+    f_el = ET.SubElement(parent, "file", id=SOURCE_FILE_ID)
     ET.SubElement(f_el, "name").text = source_filename
     if source_path:
         from urllib.parse import quote
@@ -53,13 +75,14 @@ def _build_file_element(parent: ET.Element, source_filename: str, source_path: s
         ET.SubElement(f_el, "pathurl").text = f"file://localhost{encoded}"
     else:
         ET.SubElement(f_el, "pathurl").text = f"file://localhost/RELINK_ME/{source_filename}"
-    _add_rate_element(f_el, timebase, ntsc)
+    _add_rate(f_el, timebase, ntsc)
     ET.SubElement(f_el, "duration").text = str(total_frames)
+    _add_timecode(f_el, timebase, ntsc)
 
     f_media = ET.SubElement(f_el, "media")
     f_video = ET.SubElement(f_media, "video")
     f_vsc = ET.SubElement(f_video, "samplecharacteristics")
-    _add_rate_element(f_vsc, timebase, ntsc)
+    _add_rate(f_vsc, timebase, ntsc)
     ET.SubElement(f_vsc, "width").text = str(width)
     ET.SubElement(f_vsc, "height").text = str(height)
 
@@ -68,37 +91,26 @@ def _build_file_element(parent: ET.Element, source_filename: str, source_path: s
     ET.SubElement(f_asc, "depth").text = "16"
     ET.SubElement(f_asc, "samplerate").text = str(sample_rate)
     ET.SubElement(f_audio, "channelcount").text = str(audio_channels)
-
     return f_el
 
 
-def _build_source_nest(parent: ET.Element, source_filename: str, source_path: str | None,
-                       timebase: int, ntsc: bool, total_frames: int,
-                       width: int, height: int, sample_rate: int, audio_channels: int,
-                       nest_id: str = "source-nest") -> ET.Element:
-    """Build a full-length nested sequence containing the source clip + empty track for external audio.
-
-    The editor drops external mic audio into this nest. Cuts in the main
-    timeline reference this nest, so both audio sources stay synced.
-    """
-    nest = ET.SubElement(parent, "sequence", id=nest_id)
+def _build_nest_sequence(parent: ET.Element, source_filename: str, source_path: str | None,
+                          timebase: int, ntsc: bool, total_frames: int,
+                          width: int, height: int, sample_rate: int, audio_channels: int) -> ET.Element:
+    """Build the inline NEST sequence (full source + empty mic track). Defines source file inline."""
+    nest = ET.SubElement(parent, "sequence", id=NEST_ID)
     ET.SubElement(nest, "name").text = f"NEST - {source_filename}"
     ET.SubElement(nest, "duration").text = str(total_frames)
-    _add_rate_element(nest, timebase, ntsc)
-
-    tc = ET.SubElement(nest, "timecode")
-    _add_rate_element(tc, timebase, ntsc)
-    ET.SubElement(tc, "string").text = "00:00:00:00"
-    ET.SubElement(tc, "frame").text = "0"
-    ET.SubElement(tc, "displayformat").text = "NDF"
+    _add_rate(nest, timebase, ntsc)
+    _add_timecode(nest, timebase, ntsc)
 
     n_media = ET.SubElement(nest, "media")
 
-    # Video track — full source clip
+    # Video: full source clip
     n_video = ET.SubElement(n_media, "video")
     n_vfmt = ET.SubElement(n_video, "format")
     n_vsc = ET.SubElement(n_vfmt, "samplecharacteristics")
-    _add_rate_element(n_vsc, timebase, ntsc)
+    _add_rate(n_vsc, timebase, ntsc)
     ET.SubElement(n_vsc, "width").text = str(width)
     ET.SubElement(n_vsc, "height").text = str(height)
     ET.SubElement(n_vsc, "anamorphic").text = "FALSE"
@@ -109,16 +121,16 @@ def _build_source_nest(parent: ET.Element, source_filename: str, source_path: st
     v_clip = ET.SubElement(n_vtrack, "clipitem", id="nest-video-1")
     ET.SubElement(v_clip, "name").text = source_filename
     ET.SubElement(v_clip, "duration").text = str(total_frames)
-    _add_rate_element(v_clip, timebase, ntsc)
+    _add_rate(v_clip, timebase, ntsc)
     ET.SubElement(v_clip, "in").text = "0"
     ET.SubElement(v_clip, "out").text = str(total_frames)
     ET.SubElement(v_clip, "start").text = "0"
     ET.SubElement(v_clip, "end").text = str(total_frames)
-    _build_file_element(v_clip, source_filename, source_path,
+    _define_source_file(v_clip, source_filename, source_path,
                         timebase, ntsc, total_frames, width, height,
-                        sample_rate, audio_channels, file_id="file-1", define=True)
+                        sample_rate, audio_channels)
 
-    # Audio tracks — camera audio (full clip)
+    # Audio: camera channels (full clip) + one empty track for external mic
     n_audio = ET.SubElement(n_media, "audio")
     n_afmt = ET.SubElement(n_audio, "format")
     n_asc = ET.SubElement(n_afmt, "samplecharacteristics")
@@ -130,21 +142,20 @@ def _build_source_nest(parent: ET.Element, source_filename: str, source_path: st
         a_clip = ET.SubElement(n_atrack, "clipitem", id=f"nest-audio-{ch+1}")
         ET.SubElement(a_clip, "name").text = source_filename
         ET.SubElement(a_clip, "duration").text = str(total_frames)
-        _add_rate_element(a_clip, timebase, ntsc)
+        _add_rate(a_clip, timebase, ntsc)
         ET.SubElement(a_clip, "in").text = "0"
         ET.SubElement(a_clip, "out").text = str(total_frames)
         ET.SubElement(a_clip, "start").text = "0"
         ET.SubElement(a_clip, "end").text = str(total_frames)
-        _build_file_element(a_clip, source_filename, source_path,
-                            timebase, ntsc, total_frames, width, height,
-                            sample_rate, audio_channels, file_id="file-1", define=False)
+        ET.SubElement(a_clip, "file", id=SOURCE_FILE_ID)  # reference only
         sourcetrack = ET.SubElement(a_clip, "sourcetrack")
         ET.SubElement(sourcetrack, "mediatype").text = "audio"
         ET.SubElement(sourcetrack, "trackindex").text = str(ch + 1)
 
-    # Empty track for external mic — editor drops lav audio here
+    # Empty track for external mic
     ext_track = ET.SubElement(n_audio, "track")
     ET.SubElement(ext_track, "enabled").text = "TRUE"
+    ET.SubElement(ext_track, "locked").text = "FALSE"
 
     return nest
 
@@ -156,13 +167,11 @@ def generate_fcpxml(
     output_path: str,
     source_path: str | None = None,
 ) -> str:
-    """Generate FCP 7 XML (Premiere Pro compatible) from segments and video metadata.
+    """Generate FCP 7 XML with inline-nested source sequence.
 
-    Output contains two sequences:
-    1. "NEST - filename" — full-length source clip with empty audio track for external mic
-    2. "Clean Cut - filename" — the cut timeline referencing the nest
-
-    Workflow: drop external mic audio into the nest, cuts propagate automatically.
+    The Clean Cut timeline's clipitems reference an inline NEST sequence
+    (full source + empty mic track). Editor drops mic audio into the nest;
+    cuts inherit automatically.
     """
     fps = metadata["fps"]
     width = metadata["width"]
@@ -175,114 +184,94 @@ def generate_fcpxml(
     ntsc = _is_ntsc(matched_fps)
     total_frames = _seconds_to_frames(total_duration, matched_fps)
 
-    # Root — single sequence directly under xmeml.
-    # Premiere only reliably reads the first <sequence> child.
-    # The nest is omitted; editor can create it manually if needed.
     xmeml = ET.Element("xmeml", version="5")
 
-    # --- Cut Sequence (references source file directly) ---
+    # --- Clean Cut sequence (top level) ---
     sequence = ET.SubElement(xmeml, "sequence")
     ET.SubElement(sequence, "name").text = f"{source_filename} - Clean Cut"
-    ET.SubElement(sequence, "duration").text = str(
-        sum(_seconds_to_frames(s["end"] - s["start"], matched_fps) for s in segments)
-    )
-    _add_rate_element(sequence, timebase, ntsc)
-
-    tc = ET.SubElement(sequence, "timecode")
-    _add_rate_element(tc, timebase, ntsc)
-    ET.SubElement(tc, "string").text = "00:00:00:00"
-    ET.SubElement(tc, "frame").text = "0"
-    ET.SubElement(tc, "displayformat").text = "NDF"
+    cut_total = sum(_seconds_to_frames(s["end"] - s["start"], matched_fps) for s in segments)
+    ET.SubElement(sequence, "duration").text = str(cut_total)
+    _add_rate(sequence, timebase, ntsc)
+    _add_timecode(sequence, timebase, ntsc)
 
     media = ET.SubElement(sequence, "media")
 
-    # Video track — clipitems reference the nest
+    # Video track
     video = ET.SubElement(media, "video")
-    fmt = ET.SubElement(video, "format")
-    sc = ET.SubElement(fmt, "samplecharacteristics")
-    _add_rate_element(sc, timebase, ntsc)
-    ET.SubElement(sc, "width").text = str(width)
-    ET.SubElement(sc, "height").text = str(height)
-    ET.SubElement(sc, "anamorphic").text = "FALSE"
-    ET.SubElement(sc, "pixelaspectratio").text = "square"
-    ET.SubElement(sc, "fielddominance").text = "none"
+    vfmt = ET.SubElement(video, "format")
+    vsc = ET.SubElement(vfmt, "samplecharacteristics")
+    _add_rate(vsc, timebase, ntsc)
+    ET.SubElement(vsc, "width").text = str(width)
+    ET.SubElement(vsc, "height").text = str(height)
+    ET.SubElement(vsc, "anamorphic").text = "FALSE"
+    ET.SubElement(vsc, "pixelaspectratio").text = "square"
+    ET.SubElement(vsc, "fielddominance").text = "none"
 
     v_track = ET.SubElement(video, "track")
 
-    # Audio tracks for the cut sequence
+    # Audio tracks: camera channels + external mic (mirror nest layout)
     audio = ET.SubElement(media, "audio")
-    a_fmt = ET.SubElement(audio, "format")
-    a_sc = ET.SubElement(a_fmt, "samplecharacteristics")
-    ET.SubElement(a_sc, "depth").text = "16"
-    ET.SubElement(a_sc, "samplerate").text = str(sample_rate)
+    afmt = ET.SubElement(audio, "format")
+    asc = ET.SubElement(afmt, "samplecharacteristics")
+    ET.SubElement(asc, "depth").text = "16"
+    ET.SubElement(asc, "samplerate").text = str(sample_rate)
 
-    # Camera audio channels + external mic channel from nest
-    total_audio_tracks = audio_channels + 1
-    a_tracks = []
-    for ch in range(total_audio_tracks):
-        a_track = ET.SubElement(audio, "track")
-        a_tracks.append(a_track)
+    total_audio_tracks = audio_channels + 1  # +1 for external mic slot from nest
+    a_tracks = [ET.SubElement(audio, "track") for _ in range(total_audio_tracks)]
 
-    nest_defined = False
     cumulative_frame = 0
+    nest_defined = False
 
     for i, seg in enumerate(segments):
-        seg_start_frame = _seconds_to_frames(seg["start"], matched_fps)
-        seg_duration_frames = _seconds_to_frames(seg["end"] - seg["start"], matched_fps)
-        seg_end_frame = seg_start_frame + seg_duration_frames
-
+        seg_in = _seconds_to_frames(seg["start"], matched_fps)
+        seg_dur = _seconds_to_frames(seg["end"] - seg["start"], matched_fps)
+        seg_out = seg_in + seg_dur
         clip_id = f"clip-{i+1}"
 
-        # --- Video clipitem referencing the nest ---
+        # --- Video clipitem — references the nest ---
         v_clip = ET.SubElement(v_track, "clipitem", id=clip_id)
         ET.SubElement(v_clip, "name").text = seg["label"]
         ET.SubElement(v_clip, "duration").text = str(total_frames)
-        _add_rate_element(v_clip, timebase, ntsc)
-        ET.SubElement(v_clip, "in").text = str(seg_start_frame)
-        ET.SubElement(v_clip, "out").text = str(seg_end_frame)
+        _add_rate(v_clip, timebase, ntsc)
+        ET.SubElement(v_clip, "in").text = str(seg_in)
+        ET.SubElement(v_clip, "out").text = str(seg_out)
         ET.SubElement(v_clip, "start").text = str(cumulative_frame)
-        ET.SubElement(v_clip, "end").text = str(cumulative_frame + seg_duration_frames)
+        ET.SubElement(v_clip, "end").text = str(cumulative_frame + seg_dur)
 
-        # Reference the source file directly (not the nest — Premiere
-        # needs a <file> reference to resolve clip media properly)
-        _build_file_element(v_clip, source_filename, source_path,
-                            timebase, ntsc, total_frames, width, height,
-                            sample_rate, audio_channels,
-                            file_id="file-1", define=(i == 0))
+        if not nest_defined:
+            _build_nest_sequence(v_clip, source_filename, source_path,
+                                 timebase, ntsc, total_frames,
+                                 width, height, sample_rate, audio_channels)
+            nest_defined = True
+        else:
+            ET.SubElement(v_clip, "sequence", id=NEST_ID)
 
-        # --- Audio clipitems referencing the source file ---
+        # --- Audio clipitems — reference same nest, one per track ---
         for ch, a_track in enumerate(a_tracks):
             a_clip = ET.SubElement(a_track, "clipitem", id=f"{clip_id}-audio-{ch+1}")
             ET.SubElement(a_clip, "name").text = seg["label"]
             ET.SubElement(a_clip, "duration").text = str(total_frames)
-            _add_rate_element(a_clip, timebase, ntsc)
-            ET.SubElement(a_clip, "in").text = str(seg_start_frame)
-            ET.SubElement(a_clip, "out").text = str(seg_end_frame)
+            _add_rate(a_clip, timebase, ntsc)
+            ET.SubElement(a_clip, "in").text = str(seg_in)
+            ET.SubElement(a_clip, "out").text = str(seg_out)
             ET.SubElement(a_clip, "start").text = str(cumulative_frame)
-            ET.SubElement(a_clip, "end").text = str(cumulative_frame + seg_duration_frames)
-            _build_file_element(a_clip, source_filename, source_path,
-                                timebase, ntsc, total_frames, width, height,
-                                sample_rate, audio_channels,
-                                file_id="file-1", define=False)
-
+            ET.SubElement(a_clip, "end").text = str(cumulative_frame + seg_dur)
+            ET.SubElement(a_clip, "sequence", id=NEST_ID)
             sourcetrack = ET.SubElement(a_clip, "sourcetrack")
             ET.SubElement(sourcetrack, "mediatype").text = "audio"
             ET.SubElement(sourcetrack, "trackindex").text = str(ch + 1)
 
-        cumulative_frame += seg_duration_frames
+        cumulative_frame += seg_dur
 
     # Pretty print
     rough_string = ET.tostring(xmeml, encoding="unicode")
     xml_declaration = '<?xml version="1.0" encoding="UTF-8"?>\n'
     comment = (
         '<!-- Generated by Morningside XML Pipeline -->\n'
-        '<!-- Import into Premiere Pro: File > Import > select this .xml file -->\n'
-        '<!-- Two sequences will appear: -->\n'
-        '<!--   NEST - contains full source clip + empty track for external mic -->\n'
-        '<!--   Clean Cut - the cut timeline referencing the nest -->\n'
-        '<!-- Drop external mic audio into the NEST sequence, cuts propagate automatically -->\n'
+        '<!-- Import into Premiere: File > Import > select this .xml -->\n'
+        '<!-- Two sequences appear: Clean Cut + NEST - filename -->\n'
+        '<!-- Drop external mic audio into the NEST; cuts inherit automatically -->\n'
     )
-
     parsed = minidom.parseString(rough_string)
     pretty = parsed.toprettyxml(indent="  ")
     lines = pretty.split("\n")[1:]
