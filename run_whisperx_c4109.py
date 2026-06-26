@@ -39,7 +39,9 @@ import whisperx
 
 WORKSPACE = Path("/Users/dany/Documents/Claude Workspaces/personal-workspace")
 DEFAULT_SRC_MP4 = WORKSPACE / "reference/Raw Files Tests/20260203_C4109 (shorter clip) .MP4"
-RLHF_DIR = WORKSPACE / "outputs/rlhf"
+# Output base: the workspace on Danyal's machine, else the repo dir (portable for any editor's clone).
+_OUT_BASE = WORKSPACE if WORKSPACE.exists() else Path(__file__).resolve().parent
+RLHF_DIR = _OUT_BASE / "outputs/rlhf"
 
 # WhisperX needs CPU on Apple Silicon (no MPS support).
 DEVICE = "cpu"
