@@ -35,6 +35,40 @@ First run installs the dependencies (~5 min, one-time). After that each clip tak
 
 **Ask Ops for the shared OpenAI API key.** You only enter it once; Claude writes it to `.env` and reuses it forever.
 
+## Quickstart for editors — find reel clips in long footage (via Claude Code)
+
+Different job from the rough-cut above: this scans **hours of interview/testimonial footage** and hands back the postable **reel moments** (testimonials, soundbites, results, transformations) — ranked, with timestamps + the verbatim script for each. Full detail in [`REEL_FINDER.md`](REEL_FINDER.md).
+
+1. **Install Claude Code once** (https://claude.com/claude-code) and open it in any folder.
+2. **Paste this prompt** — it does the one-time setup itself, then processes your footage:
+
+   ```
+   Clone https://github.com/dany2048/morningside-xml-pipeline into ~/morningside-pipeline
+   if it isn't already there, and cd into it. Read REEL_FINDER.md.
+
+   ONE-TIME SETUP (skip anything already done):
+   - brew install ffmpeg
+   - python3 -m venv .whisperx_venv && source .whisperx_venv/bin/activate \
+       && pip install whisperx openai python-dotenv && deactivate
+   - Create a .env file in the repo containing:  OPENAI_API_KEY=<ask me, I'll paste it>
+
+   THEN, for EACH interview video (one at a time, don't skip any):
+   1) source .whisperx_venv/bin/activate
+      python run_whisperx_c4109.py --file "<ABSOLUTE path to the .mp4>" --model small
+      deactivate
+      (note the outputs/rlhf/<tag>_words_whisperx.json path it prints)
+   2) python3 reel_finder.py "<that _words_whisperx.json path>" \
+        --subject "<the person's name>" \
+        --context "AAA Accelerator member testimonial" --min 8 --max 60
+   3) Open outputs/reel-finder/<tag>_reels.md and show me the ranked clips.
+
+   Ask me for the OpenAI API key once, save it to .env, and reuse it for every file.
+   ```
+
+3. Each clip in `outputs/reel-finder/<tag>_reels.md` has a score /10, category, on-screen hook, in/out timecode, and the **verbatim script**. First run installs deps (~5 min, one-time); after that it's transcribe + one GPT-5.4 pass per video.
+
+**Ask Ops for the shared OpenAI API key** (same one as above).
+
 ## What it actually does
 
 ```

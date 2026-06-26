@@ -23,6 +23,20 @@ outputs/reel-finder/<tag>_reels.md     (ranked, human-readable + paste-ready ran
 The whole transcript goes to GPT-5.4 in one pass (1M context) — nothing is truncated, and
 the prompt forces an exhaustive section-by-section scan so good moments aren't missed.
 
+## One-time setup (macOS)
+
+```bash
+git clone https://github.com/dany2048/morningside-xml-pipeline ~/morningside-pipeline
+cd ~/morningside-pipeline
+brew install ffmpeg
+python3 -m venv .whisperx_venv
+source .whisperx_venv/bin/activate && pip install whisperx openai python-dotenv && deactivate
+# create .env with your OpenAI key (ask Ops for the shared one):
+echo 'OPENAI_API_KEY=sk-...' > .env
+```
+
+`.env` is gitignored — your key never gets committed. First transcription auto-downloads the WhisperX models (~5 min, one-time).
+
 ## Usage
 
 ```bash
