@@ -26,7 +26,10 @@ the prompt forces an exhaustive section-by-section scan so good moments aren't m
 ## One-time setup (macOS)
 
 ```bash
+# new install:
 git clone https://github.com/dany2048/morningside-xml-pipeline ~/morningside-pipeline
+# ALREADY have an older clone (rough-cut tool)? update it instead, to get the reel-finder:
+#   cd ~/morningside-pipeline && git pull
 cd ~/morningside-pipeline
 brew install ffmpeg
 python3 -m venv .whisperx_venv

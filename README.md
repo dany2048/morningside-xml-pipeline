@@ -4,6 +4,15 @@ Automated rough-cut generator for long-form talking-head footage. You point it a
 
 A 5-minute raw clip goes through the whole pipeline in about 60 seconds and costs about $0.09 (via GPT-5.4). A 30-minute clip takes about 4 minutes of pipeline time plus about 5 minutes of your time for the Claude Code keep/cut step, at zero marginal cost. Nothing on my Mac needs a GPU.
 
+> ## ⚠️ Two tools live in this repo
+> 1. **Rough-cut (keep/cut)** — turn one raw take into a clean Premiere XML. → *"Quickstart for editors (via Claude Code)"* just below.
+> 2. **Reel-finder** *(new)* — scan long interview/testimonial footage and get back ranked, postable reel clips with timestamps + verbatim scripts. → *"Quickstart for editors — find reel clips in long footage"* further down + [`REEL_FINDER.md`](REEL_FINDER.md).
+>
+> **Already installed this before?** Your clone is from the old (rough-cut-only) version. Update it first to get the reel-finder:
+> ```bash
+> cd ~/morningside-pipeline && git pull
+> ```
+
 ## Quickstart for editors (via Claude Code)
 
 If you're an editor and you just want the XML, skip everything below and do this:
@@ -43,8 +52,10 @@ Different job from the rough-cut above: this scans **hours of interview/testimon
 2. **Paste this prompt** — it does the one-time setup itself, then processes your footage:
 
    ```
-   Clone https://github.com/dany2048/morningside-xml-pipeline into ~/morningside-pipeline
-   if it isn't already there, and cd into it. Read REEL_FINDER.md.
+   Get the repo at ~/morningside-pipeline:
+   - if it's NOT there yet:  git clone https://github.com/dany2048/morningside-xml-pipeline ~/morningside-pipeline
+   - if you ALREADY have it (you used this tool before):  cd ~/morningside-pipeline && git pull
+   Then cd into it and read REEL_FINDER.md.
 
    ONE-TIME SETUP (skip anything already done):
    - brew install ffmpeg
